@@ -1,0 +1,21 @@
+@mixin Article () {
+  .nav-title {
+    padding: 0 10px;
+
+    .page-title {
+      margin-top: 10px;
+      font-weight: normal;
+      font-size: 18px;
+      color: #32325d;
+      margin-bottom: 10px;
+    }
+  }
+
+  .article-container {
+    padding: 12px 12px;
+  }
+
+  .container--fluid {
+    max-width: 100%;
+  }
+}
