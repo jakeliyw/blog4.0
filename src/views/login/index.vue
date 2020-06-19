@@ -99,15 +99,14 @@ export default {
   }),
   methods: {
     async validate () {
-      const { data: res } = await this.$http.post('user/login', this.loginForm)
-      if (res.code === 200) {
-        this.$router.push({ name: 'article' })
-        this.snackbar = true
-      } else {
-        this.text = '邮箱或密码错误'
+      const { data: res } = await this.$http.post('/api/user/login', this.loginForm)
+      if (res.errno !== 0) {
+        this.text = '昵称或密码错误'
         this.color = 'error'
         this.snackbar = true
+        return
       }
+      this.$router.push({ name: 'admin' })
     },
     article () {
       this.$router.push({ name: 'article' })

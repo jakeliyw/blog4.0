@@ -8,7 +8,6 @@ import blogArticle from '../views/blogArticle'
 import blogTag from '../views/blogTag'
 import blogTimeline from '../views/blogTimeline'
 import detail from '../views/detail'
-import edit from '../views/edit'
 import newBlog from '../views/newBlog'
 import login from '../views/login'
 
@@ -47,7 +46,7 @@ const routes = [
         component: admin,
       },
       {
-        path: '/detail',
+        path: '/detail/:id',
         name: 'detail',
         component: detail,
       },
@@ -55,11 +54,6 @@ const routes = [
         path: '/newBlog',
         name: 'new',
         component: newBlog,
-      },
-      {
-        path: '/edit',
-        name: 'edit',
-        component: edit,
       },
     ],
   },

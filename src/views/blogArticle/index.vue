@@ -9,6 +9,7 @@
         <v-col
           cols="12"
           sm="6"
+          v-for="(item) of cardsdata" :key="item.id"
         >
           <v-hover
             v-slot:default="{ hover }"
@@ -20,19 +21,19 @@
               class="mx-auto"
               max-width="799.5"
             >
-              <v-card-title class="headline mb-1">{{data.title}}</v-card-title>
+              <v-card-title class="headline mb-1 " @click="datail(item.id)">{{item.title}}</v-card-title>
               <div class="meta-box">
                 <span class="date">
                   <v-icon small>mdi-calendar-month-outline</v-icon>
-                  <span>{{data.createtime}}</span>
+                  <span>{{item.createtime}}</span>
                 </span>
                 <span class="author">
                   <v-icon small>mdi-account-circle-outline</v-icon>
-                  <span>{{data.author}}</span>
+                  <span>{{item.author}}</span>
                 </span>
               </div>
               <div class="content">
-                {{data.subContent}}
+                {{item.subContent}}
                 <v-btn depressed x-small color="success">阅读全文</v-btn>
               </div>
               <v-card-actions>
@@ -46,26 +47,39 @@
           </v-hover>
         </v-col>
       </v-row>
+      <!--      分页-->
+      <div class="text-center">
+        <v-pagination
+          v-model="page"
+          :length="3"
+          class="pagination"
+          color="teal"
+        ></v-pagination>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'index',
   data () {
     return {
-      data: {
-        id: '',
-        title: '',
-        subContent: '',
-        createtime: '',
-        author: '',
-      },
+      cardsdata: [
+        {
+          id: '',
+          title: '',
+          subContent: '',
+          createtime: '',
+          author: '',
+        },
+      ],
       list: {
         author: '',
         keyword: '',
       },
+      page: 1,
     }
   },
   mounted () {
@@ -73,15 +87,19 @@ export default {
   },
   methods: {
     async pagelist () {
-      const { data: res } = await this.$http.get('blog/list', this.list)
-      console.log(res)
-      res.data.map(item => {
-        if (res.code !== 200) {
-          alert('数据错误')
-          return
-        }
-        this.data = item
-        this.data.createtime = this.$moment(this.data.createtime).format('YYYY-MM-DD HH:mm:ss')
+      const { data: res } = await this.$http.get('/api/blog/list', this.list)
+      if (res.errno !== 0) {
+        alert('数据错误')
+        return
+      }
+      this.cardsdata = res.data
+      this.cardsdata.map(item => {
+        item.createtime = this.$moment(item.createtime).format('YYYY-MM-DD HH:mm:ss')
+      })
+    },
+    datail (id) {
+      this.$router.push({
+        path: `/detail/${id}`,
       })
     },
   },
@@ -100,28 +118,16 @@ export default {
   text-decoration: underline;
 }
 
-.meta-box {
-  font-size: 12px;
-  color: #757575;
-  padding: 0 16px;
-  display: flex;
-  margin-bottom: 10px;
-  align-content: center;
+/*.link {*/
+/*  text-decoration: none;*/
+/*  color: #242935;*/
+/*}*/
 
-  .date {
-    display: flex;
-    align-items: center;
-    margin-right: 12px;
+.headline {
+  cursor: pointer;
+
+  &:hover {
+    color: #009688;
   }
-
-  .author {
-    @extend .date;
-  }
-}
-
-.content {
-  padding: 0 16px;
-  font-size: 15px;
-  line-height: 24px;
 }
 </style>
