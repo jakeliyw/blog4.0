@@ -10,7 +10,7 @@
           enable-resize-watcher
         >
           <v-list-item class="px-5">
-            <v-list-item-title class="item-title" @click="login">游客你好</v-list-item-title>
+            <v-list-item-title class="item-title" @click="login">游客>>></v-list-item-title>
           </v-list-item>
           <!--          分割线-->
           <v-divider></v-divider>
@@ -77,10 +77,6 @@ export default {
     async menu () {
       const { data: res } = await this.$http.get('/api/menu')
       this.menuList = res.data
-      // const val = this.menuList.filter(item => {
-      //   return item.id >= 5
-      // })
-      // console.log(val)
     },
     login () {
       this.$router.push({ name: 'login' })

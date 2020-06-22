@@ -24,10 +24,10 @@
             ></v-text-field>
           </v-col>
         </v-row>
-<!--        富文本编辑器-->
-        <mavon-editor v-model="upblog.content"/>
+        <quill-editor v-model="upblog.content" class="ql-editor ql-container">
+        </quill-editor>
         <div class="my-2">
-          <v-btn large color="teal" @click="up" class="btn-title">发表博客</v-btn>
+          <v-btn large color="primary" @click="postBlog">发表博客</v-btn>
         </div>
       </v-container>
     </v-form>
@@ -60,19 +60,37 @@ export default {
     y: 'top',
     snackbar: false,
     text: '',
-    upblog: {
-      title: '',
-      subContent: '',
-      content: '',
-      createtime: '',
-      author: '',
-    },
+    upblog: [
+      {
+        title: '',
+        subContent: '',
+        content: '',
+        createtime: '',
+        author: '',
+      },
+    ],
   }),
+  mounted () {
+    this.getupdate()
+  },
   methods: {
-    async up () {
-      const { data: res } = await this.$http.post('/api/blog/new', this.upblog)
+    async getupdate () {
+      const upDateid = this.$store.state.detail.id.id
+      console.log(upDateid)
+      const { data: res } = await this.$http.get(`/api/blog/detail?id=${upDateid}`, this.upblog)
       if (res.errno !== 0) {
-        this.text = '添加博客失败'
+        this.text = '获取数据操作错误'
+        this.color = 'error'
+        this.snackbar = true
+        return
+      }
+      this.upblog = res.data
+    },
+    async postBlog () {
+      const upDateid = this.$store.state.detail.id.id
+      const { data: res } = await this.$http.post(`/api/blog/update?id=${upDateid}`, this.upblog)
+      if (res.errno !== 0) {
+        this.text = '更新博客错误'
         this.color = 'error'
         this.snackbar = true
         return
@@ -89,7 +107,11 @@ export default {
   @include Admin;
 }
 
-.btn-title{
-  color: white;
+.ql-editor {
+  padding: 0 0;
+}
+
+.quill-editor ::v-deep .ql-container {
+  min-height: 600px;
 }
 </style>

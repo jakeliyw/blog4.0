@@ -1,5 +1,5 @@
 <template>
-  <div class="admin">
+  <div>
     <div class="nav-title">
       <h2 class="page-title">后台数据</h2>
       <v-divider></v-divider>
@@ -26,9 +26,10 @@
             <v-spacer></v-spacer>
             <!--            新建博客-->
             <v-btn
-              color="primary"
+              color="teal"
               dark
               class="mb-2"
+              @click="newBlog"
             >新建博客
             </v-btn>
           </v-toolbar>
@@ -38,7 +39,7 @@
           <v-icon
             small
             class="mr-2"
-            @click="editItem"
+            @click="editItem(item)"
             color="primary"
           >
             mdi-pencil
@@ -52,8 +53,14 @@
             mdi-delete
           </v-icon>
         </template>
-
       </v-data-table>
+      <!--        分页器-->
+      <v-pagination
+        v-model="pagination.pagenum"
+        color="teal"
+        class="pagination"
+        :length="6"
+      ></v-pagination>
       <!--            弹窗提示-->
       <v-snackbar
         :color="color"
@@ -100,29 +107,56 @@ export default {
     ],
     desserts: [],
     keyword: '',
+    pagination: {
+      pagenum: 1,
+      length: 0,
+    },
+    page: {
+      start: 0,
+      end: 5,
+    },
   }),
 
-  created () {
+  computed: {
+    total () {
+      return Math.floor(this.desserts.length / 5)
+    },
+  },
+  mounted () {
     this.initialize()
   },
 
   methods: {
     async initialize () {
-      const { data: res } = await this.$http.get(`/api/blog/list?isadmin=1&keyword=${this.keyword}`)
+      // const { data: res } = await this.$http.get(`/api/blog/list?isadmin=1&keyword=${this.keyword}`)
+      // if (res.errno !== 0) {
+      //   this.text = '未登录操作错误'
+      //   this.color = 'error'
+      //   this.snackbar = true
+      //   return
+      // }
+      // this.desserts = res.data
+      // console.log(this.desserts)
+      const { data: res } = await this.$http.get('/api/blog/list', {
+        params: {
+          start: this.page.start,
+          end: this.page.end,
+        },
+      })
       if (res.errno !== 0) {
-        this.text = '未登录操作错误'
-        this.color = 'error'
-        this.snackbar = true
+        alert('数据获取错误')
         return
       }
       console.log(res)
-      this.desserts = res.data
     },
 
-    editItem () {
+    editItem (item) {
+      this.$store.commit('detail/upDetail', item)
+      this.$router.push({ name: 'update' })
+    },
+    newBlog () {
       this.$router.push({ name: 'new' })
     },
-
     async deleteItem (item) {
       const { data: res } = await this.$http.post(`/api/blog/del?id=${item.id}`)
       if (res.errno !== 0) {
@@ -132,7 +166,7 @@ export default {
         return
       }
       this.text = '删除博客成功'
-      this.color = 'teal'
+      this.color = 'success'
       this.snackbar = true
       this.initialize()
     },
@@ -140,8 +174,33 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import "../../style/Admin";
-.admin{
-  @include Admin;
+.nav-title {
+  padding: 0 10px;
+
+  .page-title {
+    margin-top: 10px;
+    font-weight: normal;
+    font-size: 18px;
+    color: #32325d;
+    margin-bottom: 10px;
+  }
+}
+
+.v-data-table ::v-deep .v-data-footer {
+  display: none;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.container {
+  border: 1px solid #eee;
+  background: #fff;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  margin: 20px auto;
+  overflow: hidden;
 }
 </style>

@@ -100,6 +100,7 @@ export default {
   methods: {
     async validate () {
       const { data: res } = await this.$http.post('/api/user/login', this.loginForm)
+      console.log(res)
       if (res.errno !== 0) {
         this.text = '昵称或密码错误'
         this.color = 'error'

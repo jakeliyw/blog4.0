@@ -12,12 +12,13 @@
                   <span>{{cardsdata.author}}</span>
         </span>
       </div>
-      <div class="content">{{cardsdata.content}}</div>
+      <div class="content" v-html="cardsdata.content">{{cardsdata.content}}</div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'index',
   data () {
@@ -35,11 +36,11 @@ export default {
   mounted () {
     this.getDetail()
   },
+
   methods: {
     async getDetail () {
       const detailId = this.$route.params.id
       const { data: res } = await this.$http.get(`/api/blog/detail?id=${detailId}`)
-      console.log(res.data)
       if (res.errno !== 0) {
         alert('数据错误')
         return

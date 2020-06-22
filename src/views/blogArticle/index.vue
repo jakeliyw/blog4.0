@@ -9,7 +9,7 @@
         <v-col
           cols="12"
           sm="6"
-          v-for="(item) of cardsdata" :key="item.id"
+          v-for="(item) of cardsdatalimit" :key="item.id"
         >
           <v-hover
             v-slot:default="{ hover }"
@@ -23,18 +23,18 @@
             >
               <v-card-title class="headline mb-1 " @click="datail(item.id)">{{item.title}}</v-card-title>
               <div class="meta-box">
-                <span class="date">
-                  <v-icon small>mdi-calendar-month-outline</v-icon>
-                  <span>{{item.createtime}}</span>
-                </span>
+                        <span class="date">
+                          <v-icon small>mdi-calendar-month-outline</v-icon>
+                          <span>{{item.createtime}}</span>
+                        </span>
                 <span class="author">
-                  <v-icon small>mdi-account-circle-outline</v-icon>
-                  <span>{{item.author}}</span>
-                </span>
+                          <v-icon small>mdi-account</v-icon>
+                          <span>{{item.author}}</span>
+                        </span>
               </div>
               <div class="content">
                 {{item.subContent}}
-                <v-btn depressed x-small color="success">阅读全文</v-btn>
+                <v-btn depressed x-small color="success" @click="datail(item.id)">阅读全文</v-btn>
               </div>
               <v-card-actions>
                 <v-btn class="pr-0" text icon color="blue-grey lighten-2">
@@ -50,8 +50,8 @@
       <!--      分页-->
       <div class="text-center">
         <v-pagination
-          v-model="page"
-          :length="3"
+          v-model="pagination.pagenum"
+          :length="total"
           class="pagination"
           color="teal"
         ></v-pagination>
@@ -66,34 +66,61 @@ export default {
   name: 'index',
   data () {
     return {
-      cardsdata: [
-        {
-          id: '',
-          title: '',
-          subContent: '',
-          createtime: '',
-          author: '',
-        },
-      ],
-      list: {
-        author: '',
-        keyword: '',
+      cardsData: {},
+      page: {
+        start: 0,
+        end: 5,
       },
-      page: 1,
+      pagination: {
+        pagenum: 1,
+        length: 0,
+      },
     }
+  },
+  watch: {
+    // 监听这个当前页面
+    'pagination.pagenum' () {
+      this.page.start = (this.pagination.pagenum - 1) * 5
+      this.pagelist()
+    },
+  },
+  computed: {
+    total () {
+      return Math.ceil(this.pagination.length / 5)
+    },
+    // 当前页start,取值
+    cardsdatalimit () {
+      return this.cardsData[this.page.start]
+    },
   },
   mounted () {
     this.pagelist()
   },
   methods: {
     async pagelist () {
-      const { data: res } = await this.$http.get('/api/blog/list', this.list)
+      const { data: res } = await this.$http.get('/api/blog/list', {
+        params: {
+          start: this.page.start,
+          end: this.page.end,
+        },
+      })
       if (res.errno !== 0) {
         alert('数据错误')
         return
       }
-      this.cardsdata = res.data
-      this.cardsdata.map(item => {
+      // 把数组的长度设置为后台计算的总长度
+      this.$set(
+        this.pagination,
+        'length',
+        res.data.listLen,
+      )
+      // 将空对象修改成请求过来的数据
+      this.$set(
+        this.cardsData,
+        this.page.start,
+        res.data.listData,
+      )
+      res.data.listData.map(item => {
         item.createtime = this.$moment(item.createtime).format('YYYY-MM-DD HH:mm:ss')
       })
     },
@@ -117,11 +144,6 @@ export default {
   color: #607D8B;
   text-decoration: underline;
 }
-
-/*.link {*/
-/*  text-decoration: none;*/
-/*  color: #242935;*/
-/*}*/
 
 .headline {
   cursor: pointer;

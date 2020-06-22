@@ -9,6 +9,7 @@ import blogTag from '../views/blogTag'
 import blogTimeline from '../views/blogTimeline'
 import detail from '../views/detail'
 import newBlog from '../views/newBlog'
+import update from '../views/update'
 import login from '../views/login'
 
 Vue.use(VueRouter)
@@ -54,6 +55,11 @@ const routes = [
         path: '/newBlog',
         name: 'new',
         component: newBlog,
+      },
+      {
+        path: '/update',
+        name: 'update',
+        component: update,
       },
     ],
   },

@@ -1,5 +1,5 @@
 <template>
-    <div>博客修改</div>
+    <div>更新时间线</div>
 </template>
 
 <script>

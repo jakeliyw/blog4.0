@@ -3,9 +3,8 @@ const state = {
 }
 
 const mutations = {
-  upDetail (state, { id }) {
+  upDetail (state, id) {
     state.id = id
-    console.log(id)
   },
 }
 
