@@ -5,23 +5,23 @@
       <v-divider></v-divider>
     </div>
     <div class="container">
-      <v-timeline :reverse="reverse" :dense="$vuetify.breakpoint.smAndDown">
+      <v-timeline :reverse="reverse" :dense="$vuetify.breakpoint.smAndDown" >
         <v-timeline-item
-          v-for="n in 12"
           color="red lighten-2"
-          :key="n"
+          small
+          v-for="(item) of datalist" :key="item.id"
         >
-          <span slot="opposite">Tus eu perfecto</span>
+          <span slot="opposite">{{item.createtime}}</span>
           <v-card class="elevation-2">
-            <v-card-title class="headline">Lorem ipsum</v-card-title>
+            <v-card-title class="headline">{{item.title}}</v-card-title>
             <div class="meta-box">
                         <span class="date">
                           <v-icon small>mdi-calendar-month-outline</v-icon>
-                          <span>对你撒娇的</span>
+                          <span>{{item.createtime}}</span>
                         </span>
             </div>
             <v-card-text>
-              Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.
+              {{item.content}}
             </v-card-text>
           </v-card>
         </v-timeline-item>
@@ -33,7 +33,25 @@
 export default {
   data: () => ({
     reverse: true,
+    datalist: [],
   }),
+  mounted () {
+    this.getList()
+  },
+  methods: {
+    async getList () {
+      const { data: res } = await this.$http.get('/api/timeline/list')
+      console.log(res)
+      if (res.errno !== 0) {
+        alert('获取时间线数据失败')
+        return
+      }
+      res.data.map(item => {
+        item.createtime = this.$moment(item.createtime).format('YYYY-MM-DD HH:mm:ss')
+      })
+      this.datalist = res.data
+    },
+  },
 }
 </script>
 <style scoped lang="scss">

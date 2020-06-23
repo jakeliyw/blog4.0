@@ -12,13 +12,23 @@
                   <span>{{cardsdata.author}}</span>
         </span>
       </div>
-      <div class="content" v-html="cardsdata.content">{{cardsdata.content}}</div>
+      <mavon-editor :subfield="false"
+                    :boxShadow="false"
+                    :defaultOpen="'preview'"
+                    :editable="false"
+                    :toolbarsFlag="false"
+                    :value="cardsdata.content"
+                    previewBackground="white"
+                    class="v-note-panel v-note-wrapper v-note-show v-show-content"
+      >
+      </mavon-editor>
+<!--      <div class="markdown-body" v-html="cardsdata.content">{{cardsdata.content}}</div>-->
     </div>
   </div>
 </template>
 
 <script>
-
+import 'mavon-editor/dist/css/index.css'
 export default {
   name: 'index',
   data () {
@@ -72,12 +82,14 @@ export default {
 .date {
   margin-right: 20px;
 }
-
 .author {
   @extend .date;
 }
 
-.content {
-  margin-bottom: 40px;
+.v-note-panel{
+  border: none;
+}
+.v-note-show ::v-deep .v-show-content {
+  padding: 0 0 !important;
 }
 </style>

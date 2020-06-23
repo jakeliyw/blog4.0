@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <v-app id="inspire">
         <!--        菜单栏区域-->
         <v-navigation-drawer
           v-model="drawer"
@@ -9,8 +8,12 @@
           color="teal"
           enable-resize-watcher
         >
-          <v-list-item class="px-5">
-            <v-list-item-title class="item-title" @click="login">游客>>></v-list-item-title>
+          <v-list-item class="px-4">
+            <v-list-item-avatar @click="login" class="item-title">
+              <v-img :src="require('../assets/image/head.jpg')"></v-img>
+            </v-list-item-avatar>
+
+            <v-list-item-title class="item-title" @click="login">Hakey Lyw</v-list-item-title>
           </v-list-item>
           <!--          分割线-->
           <v-divider></v-divider>
@@ -37,7 +40,17 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
+          <template v-slot:append>
+            <div class="nav-bottom">
+              <p>2020 | Hakey博客</p>
+              <p>{{date}}</p>
+              <a href="http://www.beian.gov.cn/portal/index.do">
+                <img :src="require('../assets/image/police.png')" alt="备案"/>
+                粤ICP备20001315号</a>
+            </div>
+          </template>
         </v-navigation-drawer>
+
         <!--        头部区域-->
         <v-app-bar
           app
@@ -51,10 +64,12 @@
         <!--        内容区域-->
         <v-content class="remove-top">
           <div class="container">
+            <div class="back-top">
+              <img :src="require('../assets/image/top.png')" alt="顶部">
+            </div>
             <router-view></router-view>
           </div>
         </v-content>
-      </v-app>
     </v-app>
   </div>
 </template>
@@ -64,6 +79,7 @@ export default {
   name: 'Home',
   data: () => {
     return {
+      date: new Date(), // 博客时间
       istrue: true,
       drawer: true,
       menuList: [],
@@ -72,6 +88,15 @@ export default {
   },
   mounted () {
     this.menu()
+    const _this = this // 声明一个变量指向Vue实例this，保证作用域一致
+    this.timer = setInterval(() => {
+      _this.date = this.$moment(new Date()).format('YYYY-MM-DD HH:mm:ss') // 修改数据date
+    }, 1000)
+  },
+  beforeDestroy () {
+    if (this.timer) {
+      clearInterval(this.timer) // 在Vue实例销毁前，清除我们的定时器
+    }
   },
   methods: {
     async menu () {
@@ -150,5 +175,34 @@ export default {
 
 .v-icon {
   color: white !important;
+}
+.nav-bottom{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  p{
+    margin: 0 0 5px 0;
+    color: white;
+    font-size: 14px;
+  }
+  a{
+    margin: 0 0 10px 0;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    img{
+      width: 15px;
+    }
+  }
+}
+.back-top{
+  position: fixed;
+  right: 1%;
+  bottom: 45px;
+  z-index: 999;
+  img {
+    width: 50px;
+    height: 50px;
+  }
 }
 </style>

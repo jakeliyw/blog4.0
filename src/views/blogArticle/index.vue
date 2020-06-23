@@ -104,6 +104,7 @@ export default {
           end: this.page.end,
         },
       })
+      console.log(res)
       if (res.errno !== 0) {
         alert('数据错误')
         return
