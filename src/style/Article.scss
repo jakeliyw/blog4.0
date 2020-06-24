@@ -8,6 +8,11 @@
       font-size: 18px;
       color: #32325d;
       margin-bottom: 10px;
+      &::before{
+        content: '#';
+        color: teal;
+        padding-right: 5px;
+      }
     }
   }
 

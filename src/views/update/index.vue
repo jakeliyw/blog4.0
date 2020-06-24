@@ -1,7 +1,7 @@
 <template>
   <div class="admin">
     <div class="nav-title">
-      <h2 class="page-title">新建博客</h2>
+      <h2 class="page-title">更新博客</h2>
       <v-divider></v-divider>
     </div>
     <v-form>
@@ -24,10 +24,9 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <quill-editor v-model="upblog.content" class="ql-editor ql-container">
-        </quill-editor>
+        <mavon-editor v-model="upblog.content"/>
         <div class="my-2">
-          <v-btn large color="primary" @click="postBlog">发表博客</v-btn>
+          <v-btn large color="teal" @click="postBlog" class="newtitle">发表博客</v-btn>
         </div>
       </v-container>
     </v-form>
@@ -76,7 +75,9 @@ export default {
   methods: {
     async getupdate () {
       const upDateid = this.$store.state.detail.id.id
-      console.log(upDateid)
+      if (!upDateid) {
+        return
+      }
       const { data: res } = await this.$http.get(`/api/blog/detail?id=${upDateid}`, this.upblog)
       if (res.errno !== 0) {
         this.text = '获取数据操作错误'
@@ -89,6 +90,7 @@ export default {
     async postBlog () {
       const upDateid = this.$store.state.detail.id.id
       const { data: res } = await this.$http.post(`/api/blog/update?id=${upDateid}`, this.upblog)
+      console.log(res)
       if (res.errno !== 0) {
         this.text = '更新博客错误'
         this.color = 'error'
@@ -106,12 +108,7 @@ export default {
 .admin {
   @include Admin;
 }
-
-.ql-editor {
-  padding: 0 0;
-}
-
-.quill-editor ::v-deep .ql-container {
-  min-height: 600px;
+.newtitle{
+  color: white;
 }
 </style>

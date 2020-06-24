@@ -7,7 +7,7 @@
     <div class="container">
       <v-data-table
         :headers="headers"
-        :items="desserts"
+        :items="cardsData"
         sort-by="calories"
         class="elevation-1"
       >
@@ -20,7 +20,7 @@
               label="Search"
               single-line
               hide-details
-              @keyup.enter.native="initialize"
+              @keyup.enter.native="pagelist"
             ></v-text-field>
 
             <v-spacer></v-spacer>
@@ -59,7 +59,7 @@
         v-model="pagination.pagenum"
         color="teal"
         class="pagination"
-        :length="6"
+        :length="total"
       ></v-pagination>
       <!--            弹窗提示-->
       <v-snackbar
@@ -105,7 +105,7 @@ export default {
         sortable: false,
       },
     ],
-    desserts: [],
+    cardsData: [],
     keyword: '',
     pagination: {
       pagenum: 1,
@@ -117,17 +117,28 @@ export default {
     },
   }),
 
+  watch: {
+    // 监听这个当前页面
+    'pagination.pagenum' () {
+      this.page.start = (this.pagination.pagenum - 1) * 5
+      this.pagelist()
+    },
+  },
   computed: {
     total () {
-      return Math.floor(this.desserts.length / 5)
+      return Math.ceil(this.pagination.length / 5)
+    },
+    // 当前页start,取值
+    cardsdatalimit () {
+      return this.cardsData[this.page.start]
     },
   },
   mounted () {
-    this.initialize()
+    this.pagelist()
   },
 
   methods: {
-    async initialize () {
+    async pagelist () {
       // const { data: res } = await this.$http.get(`/api/blog/list?isadmin=1&keyword=${this.keyword}`)
       // if (res.errno !== 0) {
       //   this.text = '未登录操作错误'
@@ -137,7 +148,7 @@ export default {
       // }
       // this.desserts = res.data
       // console.log(this.desserts)
-      const { data: res } = await this.$http.get('/api/blog/list', {
+      const { data: res } = await this.$http.get(`/api/blog/list?isadmin=1&keyword=${this.keyword}`, {
         params: {
           start: this.page.start,
           end: this.page.end,
@@ -147,7 +158,19 @@ export default {
         alert('数据获取错误')
         return
       }
-      console.log(res)
+      // 把数组的长度设置为后台计算的总长度
+      this.$set(
+        this.pagination,
+        'length',
+        res.data.listLen,
+      )
+      this.cardsData = res.data.listData
+      // 将空对象修改成请求过来的数据
+      // this.$set(
+      //   this.cardsData,
+      //   this.page.start,
+      //   res.data,
+      // )
     },
 
     editItem (item) {
@@ -168,7 +191,7 @@ export default {
       this.text = '删除博客成功'
       this.color = 'success'
       this.snackbar = true
-      this.initialize()
+      this.pagelist()
     },
   },
 }
