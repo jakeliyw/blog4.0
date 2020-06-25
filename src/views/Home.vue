@@ -315,4 +315,7 @@ export default {
     height: 50px;
   }
 }
+.v-list-group ::v-deep .v-list-group__items{
+  margin-left: 55px;
+}
 </style>

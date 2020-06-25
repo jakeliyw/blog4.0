@@ -76,11 +76,19 @@ const routes = [
       },
     ],
   },
-
 ]
 
 const router = new VueRouter({
   routes,
+})
+router.beforeEach((to, from, next) => {
+  const tokenStr = window.localStorage.getItem('token')
+  if (!tokenStr) {
+    if (['/admin', '/newBlog', '/update'].includes(to.path)) {
+      return next('/blogArticle')
+    }
+  }
+  next()
 })
 
 export default router

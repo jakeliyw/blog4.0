@@ -154,6 +154,7 @@ export default {
           end: this.page.end,
         },
       })
+      console.log(res)
       if (res.errno !== 0) {
         alert('数据获取错误')
         return
