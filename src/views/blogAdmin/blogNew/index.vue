@@ -1,9 +1,6 @@
 <template>
-  <div class="admin">
-    <div class="nav-title">
-      <h2 class="page-title">新建博客</h2>
-      <v-divider></v-divider>
-    </div>
+  <div>
+    <header-title :title="title"/>
     <v-form>
       <v-container>
         <v-row>
@@ -25,7 +22,7 @@
           </v-col>
         </v-row>
 <!--        富文本编辑器-->
-        <mavon-editor v-model="upblog.content"/>
+        <mavon-editor v-model="upblog.content" />
         <div class="my-2">
           <v-btn large color="teal" @click="up" class="btn-title">发表博客</v-btn>
         </div>
@@ -52,9 +49,16 @@
     </v-snackbar>
   </div>
 </template>
+
 <script>
+import HeaderTitle from '@/components/HeaderTitle'
 export default {
+  name: 'newBlog',
+  components: {
+    HeaderTitle,
+  },
   data: () => ({
+    title: '文章新建',
     multiLine: true,
     color: '',
     y: 'top',
@@ -70,6 +74,12 @@ export default {
   }),
   methods: {
     async up () {
+      if (!this.upblog.title.trim()) {
+        this.text = '请输入标题'
+        this.color = 'error'
+        this.snackbar = true
+        return
+      }
       const { data: res } = await this.$http.post('/api/blog/new', this.upblog)
       if (res.errno !== 0) {
         this.text = '添加博客失败'
@@ -83,7 +93,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import "../../style/Admin";
+@import "../../../style/Admin";
 
 .admin {
   @include Admin;

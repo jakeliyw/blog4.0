@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div class="nav-title">
-      <h2 class="page-title">后台数据</h2>
-      <v-divider></v-divider>
-    </div>
+    <header-title :title="title"/>
     <div class="container">
       <v-data-table
         :headers="headers"
@@ -85,8 +82,14 @@
 </template>
 
 <script>
+import HeaderTitle from '@/components/HeaderTitle'
 export default {
+  name: 'admin',
+  components: {
+    HeaderTitle,
+  },
   data: () => ({
+    title: '文章管理',
     multiLine: true,
     color: '',
     y: 'top',
@@ -139,22 +142,13 @@ export default {
 
   methods: {
     async pagelist () {
-      // const { data: res } = await this.$http.get(`/api/blog/list?isadmin=1&keyword=${this.keyword}`)
-      // if (res.errno !== 0) {
-      //   this.text = '未登录操作错误'
-      //   this.color = 'error'
-      //   this.snackbar = true
-      //   return
-      // }
-      // this.desserts = res.data
-      // console.log(this.desserts)
-      const { data: res } = await this.$http.get(`/api/blog/list?isadmin=1&keyword=${this.keyword}`, {
+      const { data: res } = await this.$http.get('/api/blog/list?isadmin=1', {
         params: {
           start: this.page.start,
           end: this.page.end,
+          keyword: this.keyword,
         },
       })
-      console.log(res)
       if (res.errno !== 0) {
         alert('数据获取错误')
         return
@@ -198,22 +192,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.nav-title {
-  padding: 0 10px;
-
-  .page-title {
-    margin-top: 10px;
-    font-weight: normal;
-    font-size: 18px;
-    color: #32325d;
-    margin-bottom: 10px;
-  }
-}
-
 .v-data-table ::v-deep .v-data-footer {
   display: none;
 }
-
 .pagination {
   margin-top: 20px;
 }

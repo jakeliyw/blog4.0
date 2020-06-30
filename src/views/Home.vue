@@ -39,11 +39,11 @@
               <v-list-item-title class="list-item">{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
+<!--          文章管理-->
           <v-list-group
             prepend-icon="local_offer"
             color="white"
-            v-show="adminsList"
+            v-show="isshow"
           >
             <template v-slot:activator>
               <v-list-item-title>文章管理</v-list-item-title>
@@ -58,6 +58,31 @@
                 <v-list-item-title v-text="admin.title"></v-list-item-title>
               </v-list-item>
             </v-list-group>
+<!--          时间管理-->
+          <v-list-group
+            prepend-icon="local_offer"
+            color="white"
+            v-show="isshow"
+          >
+            <template v-slot:activator>
+              <v-list-item-title>时间管理</v-list-item-title>
+            </template>
+            <v-list-item
+              v-for="(admin) in timeList"
+              :key="admin.id"
+              link
+              router
+              :to="admin.path"
+            >
+              <v-list-item-title
+                v-text="admin.title"
+              >
+
+              </v-list-item-title>
+
+            </v-list-item>
+          </v-list-group>
+
         </v-list>
 
         <template v-slot:append>
@@ -106,11 +131,13 @@ export default {
       drawer: true,
       menuList: [],
       adminsList: [],
+      isshow: false,
+      timeList: [],
       admins: [
-        { id: 5, title: '文章全部', path: '/admin' },
-        { id: 6, title: '文章新建', path: '/newBlog' },
-        { id: 7, title: '文章更新', path: '/update' },
-        { id: 8, title: '文章详情', path: '/detail' },
+        { id: 5, title: '文章全部', path: '/blogAdmin' },
+        { id: 6, title: '文章新建', path: '/blogNew' },
+        { id: 7, title: '文章更新', path: '/blogUpdate' },
+        { id: 8, title: '文章详情', path: '/blogDetail' },
       ],
       nowDate: '', // 当前日期
       nowTime: '', // 当前时间
@@ -118,8 +145,9 @@ export default {
     }
   },
   mounted () {
-    this.menu()
+    this.getMenu()
     this.getAdmin()
+    this.getTime()
     window.addEventListener('scroll', this.scrollToTop, true) // 生命周期滚动
     // 页面加载完后显示当前时间
     this.dealWithTime(new Date())
@@ -135,16 +163,31 @@ export default {
     }
   },
   methods: {
-    async menu () {
+    async getMenu () {
       const { data: res } = await this.$http.get('/api/menu')
+      console.log(res)
       this.menuList = res.data
     },
     async getAdmin () {
-      const { data: res } = await this.$http.get('/api/admins')
-      this.adminsList = res.data
+      const { data: res } = await this.$http.get('/api/getAdmins')
+      if (res.errno === 0) {
+        this.adminsList = res.data
+        this.isshow = true
+      } else {
+        this.isshow = false
+      }
+    },
+    async getTime () {
+      const { data: res } = await this.$http.get('/api/getTime')
+      if (res.errno === 0) {
+        this.timeList = res.data
+        this.isshow = true
+      } else {
+        this.isshow = false
+      }
     },
     login () {
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: 'bloglogin' })
     },
     // 时间轮子
     dealWithTime (data) { // 获取当前时间

@@ -4,24 +4,32 @@
       <div class="article-title">{{cardsdata.title}}</div>
       <div class="article-meta">
         <span class="date">
-                  <v-icon small>mdi-calendar-month-outline</v-icon>
+                  <v-icon small class="con-yanjing">mdi-calendar-month-outline</v-icon>
                   <span>{{cardsdata.createtime}}</span>
                 </span>
         <span class="author">
-                  <v-icon small>mdi-account-circle-outline</v-icon>
+                  <v-icon small class="con-yanjing">mdi-face-outline</v-icon>
                   <span>{{cardsdata.author}}</span>
         </span>
+        <span class="watch">
+                  <v-icon small class="con-yanjing">mdi-eye-outline</v-icon>
+                  <span >{{cardsdata.toalnum}}</span>
+        </span>
       </div>
-      <mavon-editor :subfield="false"
-                    :boxShadow="false"
-                    :defaultOpen="'preview'"
-                    :editable="false"
-                    :toolbarsFlag="false"
-                    :value="cardsdata.content"
-                    previewBackground="white"
-                    class="v-note-panel v-note-wrapper v-note-show v-show-content"
-      >
-      </mavon-editor>
+      <div class="mavonEditor">
+        <mavon-editor :subfield="false"
+                      :boxShadow="false"
+                      :defaultOpen="'preview'"
+                      :editable="false"
+                      :toolbarsFlag="false"
+                      :value="cardsdata.content"
+                      previewBackground="white"
+                      class="v-note-panel v-note-show v-show-content"
+                      :codeStyle="codeStyle"
+                      :ishljs="true"
+        >
+        </mavon-editor>
+      </div>
 <!--      <div class="markdown-body" v-html="cardsdata.content">{{cardsdata.content}}</div>-->
     </div>
   </div>
@@ -30,9 +38,10 @@
 <script>
 import 'mavon-editor/dist/css/index.css'
 export default {
-  name: 'index',
+  name: 'detail',
   data () {
     return {
+      codeStyle: 'monokai-sublime', // 代码块主题
       cardsdata: [
         {
           id: '',
@@ -50,7 +59,11 @@ export default {
   methods: {
     async getDetail () {
       const detailId = this.$route.params.id
-      const { data: res } = await this.$http.get(`/api/blog/detail?id=${detailId}`)
+      const { data: res } = await this.$http.get('/api/blog/detail', {
+        params: {
+          id: detailId,
+        },
+      })
       if (res.errno !== 0) {
         alert('数据错误')
         return
@@ -81,11 +94,23 @@ export default {
 
 .date {
   margin-right: 20px;
+  .con-yanjing{
+    margin-right: 4px;
+  }
 }
 .author {
   @extend .date;
+  .con-yanjing{
+    margin-right: 4px;
+  }
 }
-
+.watch {
+  @extend .author;
+  .con-yanjing{
+    font-size: 12px;
+    margin-right: 4px;
+  }
+}
 .v-note-panel{
   border: none;
 }

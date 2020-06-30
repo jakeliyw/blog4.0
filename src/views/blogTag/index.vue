@@ -1,13 +1,22 @@
 <template>
-  <div>标签页</div>
+  <div>
+    <header-title :title="title"/>
+  </div>
 </template>
 
 <script>
+import HeaderTitle from '@/components/HeaderTitle'
 export default {
-  name: 'index',
+  name: 'blogTag',
+  components: {
+    HeaderTitle,
+  },
+  data: () => ({
+    title: '标签页',
+  }),
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

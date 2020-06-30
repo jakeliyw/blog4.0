@@ -1,9 +1,7 @@
 <template>
   <div class="article">
-    <div class="nav-title">
-      <h2 class="page-title">文章内容</h2>
-      <v-divider></v-divider>
-    </div>
+    <div>
+    <header-title :title="title"/>
     <div class="article-container container--fluid">
       <v-row>
         <v-col
@@ -24,13 +22,17 @@
               <v-card-title class="headline mb-1 " @click="datail(item.id)">{{item.title}}</v-card-title>
               <div class="meta-box">
                         <span class="date">
-                          <v-icon small>mdi-calendar-month-outline</v-icon>
+                          <v-icon small class="con-yanjing">mdi-calendar-month-outline</v-icon>
                           <span>{{item.createtime}}</span>
                         </span>
                 <span class="author">
-                          <v-icon small>mdi-account</v-icon>
+                          <v-icon small class="con-yanjing">mdi-face-outline</v-icon>
                           <span>{{item.author}}</span>
                         </span>
+                <span class="watch">
+                  <v-icon small class="con-yanjing">mdi-eye-outline</v-icon>
+                  <span>{{item.toalnum}}</span>
+        </span>
               </div>
               <div class="content">
                 {{item.subContent}}
@@ -58,14 +60,19 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
-
+import HeaderTitle from '@/components/HeaderTitle'
 export default {
-  name: 'index',
+  name: 'blogArticle',
+  components: {
+    HeaderTitle,
+  },
   data () {
     return {
+      title: '首页',
       cardsData: {},
       page: {
         start: 0,
@@ -126,7 +133,7 @@ export default {
     },
     datail (id) {
       this.$router.push({
-        path: `/detail/${id}`,
+        path: `/blogDetail/${id}`,
       })
     },
   },
@@ -135,7 +142,6 @@ export default {
 
 <style scoped lang="scss">
 @import "../../style/Article";
-
 .article {
   @include Article;
 }

@@ -1,10 +1,10 @@
 <template>
-    <div>1</div>
+    <div>更新时间</div>
 </template>
 
 <script>
 export default {
-  name: 'index',
+  name: 'timeUpdate',
 }
 </script>
 

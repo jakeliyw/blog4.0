@@ -1,9 +1,6 @@
 <template>
-  <div class="admin">
-    <div class="nav-title">
-      <h2 class="page-title">时间线</h2>
-      <v-divider></v-divider>
-    </div>
+  <div>
+    <header-title :title="title"/>
     <div class="container">
       <v-timeline :reverse="reverse" :dense="$vuetify.breakpoint.smAndDown" >
         <v-timeline-item
@@ -30,9 +27,15 @@
   </div>
 </template>
 <script>
+import HeaderTitle from '@/components/HeaderTitle'
 export default {
+  name: 'blogTimeline',
+  components: {
+    HeaderTitle,
+  },
   data: () => ({
     reverse: true,
+    title: '时间线',
     datalist: [],
   }),
   mounted () {
@@ -40,7 +43,7 @@ export default {
   },
   methods: {
     async getList () {
-      const { data: res } = await this.$http.get('/api/timeline/list')
+      const { data: res } = await this.$http.get('/api/blog/timeAdmin')
       console.log(res)
       if (res.errno !== 0) {
         alert('获取时间线数据失败')

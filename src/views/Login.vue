@@ -1,10 +1,12 @@
 <template>
-    <div>更新时间线</div>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'index',
+  name: 'blogLogin',
 }
 </script>
 

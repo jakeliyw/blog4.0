@@ -2,15 +2,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import blogLogin from '../views/blogLogin'
-import admin from '../views/admin'
+import Login from '../views/Login'
+import blogAdmin from '../views/blogAdmin/blogAdmin'
 import blogAbout from '../views/blogAbout'
 import blogArticle from '../views/blogArticle'
 import blogTag from '../views/blogTag'
 import blogTimeline from '../views/blogTimeline'
-import detail from '../views/detail'
-import newBlog from '../views/newBlog'
-import update from '../views/update'
-import login from '../views/login'
+import blogDetail from '../views/blogDetail'
+import blogNew from '../views/blogAdmin/blogNew'
+import blogUpdate from '../views/blogAdmin/blogUpdate'
+import timeAdmin from '../views/timeAdmin/timeAdmin'
+import timeNew from '../views/timeAdmin/timeNew'
+import timeUpdate from '../views/timeAdmin/timeUpdate'
 
 Vue.use(VueRouter)
 
@@ -42,37 +45,52 @@ const routes = [
         component: blogTimeline,
       },
       {
-        path: '/admin',
+        path: '/blogAdmin',
         name: 'admin',
-        component: admin,
+        component: blogAdmin,
       },
       {
-        path: '/detail/:id',
+        path: '/blogDetail/:id',
         name: 'detail',
-        component: detail,
+        component: blogDetail,
       },
       {
-        path: '/newBlog',
+        path: '/blogNew',
         name: 'new',
-        component: newBlog,
+        component: blogNew,
       },
       {
-        path: '/update',
+        path: '/blogUpdate',
         name: 'update',
-        component: update,
+        component: blogUpdate,
+      },
+      {
+        path: '/timeAdmin',
+        name: 'timeadmin',
+        component: timeAdmin,
+      },
+      {
+        path: '/timeNew',
+        name: 'timenew',
+        component: timeNew,
+      },
+      {
+        path: '/timeUpdate',
+        name: 'timeupdate',
+        component: timeUpdate,
       },
     ],
   },
   {
-    path: '/blogLogin',
-    name: 'blogLogin',
-    redirect: '/login',
-    component: blogLogin,
+    path: '/Login',
+    name: 'Login',
+    redirect: '/blogLogin',
+    component: Login,
     children: [
       {
-        path: '/login',
-        name: 'login',
-        component: login,
+        path: '/blogLogin',
+        name: 'bloglogin',
+        component: blogLogin,
       },
     ],
   },
@@ -84,7 +102,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const tokenStr = window.localStorage.getItem('token')
   if (!tokenStr) {
-    if (['/admin', '/newBlog', '/update'].includes(to.path)) {
+    if (['/blogAdmin', '/blogNew', '/blogUpdate', '/timeAdmin', '/timeNew', '/blogLogin'].includes(to.path)) {
       return next('/blogArticle')
     }
   }
