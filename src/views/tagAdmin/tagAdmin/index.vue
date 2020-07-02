@@ -90,7 +90,7 @@ export default {
     HeaderTitle,
   },
   data: () => ({
-    title: '文章管理',
+    title: '标签管理',
     multiLine: true,
     color: '',
     y: 'top',
@@ -98,10 +98,10 @@ export default {
     text: '',
     headers: [
       {
-        text: '博客标题',
+        text: '标签标题',
         align: 'start',
         sortable: true,
-        value: 'title',
+        value: 'tags',
       },
       {
         text: '操作',
@@ -143,13 +143,14 @@ export default {
 
   methods: {
     async pagelist () {
-      const { data: res } = await this.$http.get('/api/blog/list?isadmin=1', {
+      const { data: res } = await this.$http.get('/api/blog/tagList?isadmin=1', {
         params: {
           start: this.page.start,
           end: this.page.end,
           keyword: this.keyword,
         },
       })
+      console.log(res.data.listData)
       if (res.errno !== 0) {
         alert('数据获取错误')
         return
@@ -161,23 +162,17 @@ export default {
         res.data.listLen,
       )
       this.cardsData = res.data.listData
-      // 将空对象修改成请求过来的数据
-      // this.$set(
-      //   this.cardsData,
-      //   this.page.start,
-      //   res.data,
-      // )
     },
 
     editItem (item) {
-      this.$store.commit('detail/upDetail', item)
-      this.$router.push({ name: 'update' })
+      this.$store.commit('detail/tagDetail', item)
+      this.$router.push({ name: 'tagupdate' })
     },
     newBlog () {
-      this.$router.push({ name: 'new' })
+      this.$router.push({ name: 'tagnew' })
     },
     async deleteItem (item) {
-      const { data: res } = await this.$http.post(`/api/blog/del?id=${item.id}`)
+      const { data: res } = await this.$http.post(`/api/blog/tagDel?id=${item.id}`)
       if (res.errno !== 0) {
         this.text = '删除博客失败'
         this.color = 'error'

@@ -14,6 +14,9 @@ import blogUpdate from '../views/blogAdmin/blogUpdate'
 import timeAdmin from '../views/timeAdmin/timeAdmin'
 import timeNew from '../views/timeAdmin/timeNew'
 import timeUpdate from '../views/timeAdmin/timeUpdate'
+import tagAdmin from '../views/tagAdmin/tagAdmin'
+import tagNew from '../views/tagAdmin/tagNew'
+import tagUpdate from '../views/tagAdmin/tagUpdate'
 
 Vue.use(VueRouter)
 
@@ -79,6 +82,21 @@ const routes = [
         name: 'timeupdate',
         component: timeUpdate,
       },
+      {
+        path: '/tagAdmin',
+        name: 'tagadmin',
+        component: tagAdmin,
+      },
+      {
+        path: '/tagNew',
+        name: 'tagnew',
+        component: tagNew,
+      },
+      {
+        path: '/tagUpdate',
+        name: 'tagupdate',
+        component: tagUpdate,
+      },
     ],
   },
   {
@@ -102,7 +120,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const tokenStr = window.localStorage.getItem('token')
   if (!tokenStr) {
-    if (['/blogAdmin', '/blogNew', '/blogUpdate', '/timeAdmin', '/timeNew', '/blogLogin'].includes(to.path)) {
+    if (['/blogAdmin', '/blogNew', '/blogUpdate',
+      '/timeAdmin', '/timeNew', '/timeUpdate', '/tagUpdate', '/tagNew', '/tagAdmin'].includes(to.path)) {
       return next('/blogArticle')
     }
   }

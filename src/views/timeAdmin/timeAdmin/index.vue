@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-title :title="title"/>
+    <header-title :title="title" />
     <div class="container">
       <v-data-table
         :headers="headers"
@@ -17,8 +17,9 @@
               label="Search"
               single-line
               hide-details
-              @keyup.enter.native="pagelist"
-            ></v-text-field>
+              @keyup.enter.native="getList"
+            >
+            </v-text-field>
 
             <v-spacer></v-spacer>
             <!--            新建博客-->
@@ -51,13 +52,7 @@
           </v-icon>
         </template>
       </v-data-table>
-      <!--        分页器-->
-      <v-pagination
-        v-model="pagination.pagenum"
-        color="teal"
-        class="pagination"
-        :length="total"
-      ></v-pagination>
+
       <!--            弹窗提示-->
       <v-snackbar
         :color="color"
@@ -83,6 +78,7 @@
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+
 export default {
   name: 'admin',
   components: {
@@ -97,7 +93,7 @@ export default {
     text: '',
     headers: [
       {
-        text: '博客标题',
+        text: '时间标题',
         align: 'start',
         sortable: true,
         value: 'title',
@@ -110,73 +106,40 @@ export default {
     ],
     cardsData: [],
     keyword: '',
-    pagination: {
-      pagenum: 1,
-      length: 0,
-    },
-    page: {
-      start: 0,
-      end: 5,
-    },
   }),
 
-  watch: {
-    // 监听这个当前页面
-    'pagination.pagenum' () {
-      this.page.start = (this.pagination.pagenum - 1) * 5
-      this.pagelist()
-    },
-  },
-  computed: {
-    total () {
-      return Math.ceil(this.pagination.length / 5)
-    },
-    // 当前页start,取值
-    cardsdatalimit () {
-      return this.cardsData[this.page.start]
-    },
-  },
   mounted () {
-    this.pagelist()
+    this.getList()
   },
 
   methods: {
-    async pagelist () {
-      const { data: res } = await this.$http.get('/api/blog/list?isadmin=1', {
+    // 获取数据
+    async getList () {
+      const { data: res } = await this.$http.get('/api/blog/timeAdmin', {
         params: {
-          start: this.page.start,
-          end: this.page.end,
           keyword: this.keyword,
         },
       })
       if (res.errno !== 0) {
-        alert('数据获取错误')
+        this.text = '数据获取错误'
+        this.color = 'error'
+        this.snackbar = true
         return
       }
-      // 把数组的长度设置为后台计算的总长度
-      this.$set(
-        this.pagination,
-        'length',
-        res.data.listLen,
-      )
-      this.cardsData = res.data.listData
-      // 将空对象修改成请求过来的数据
-      // this.$set(
-      //   this.cardsData,
-      //   this.page.start,
-      //   res.data,
-      // )
+      this.cardsData = res.data
     },
-
-    editItem (item) {
-      this.$store.commit('blogDetail/upDetail', item)
-      this.$router.push({ name: 'update' })
-    },
+    // 新增数据
     newBlog () {
-      this.$router.push({ name: 'new' })
+      this.$router.push({ name: 'timenew' })
     },
+    // 修改数据
+    editItem (item) {
+      this.$store.commit('detail/timeDateil', item)
+      this.$router.push({ name: 'timeupdate' })
+    },
+    // 删除数据
     async deleteItem (item) {
-      const { data: res } = await this.$http.post(`/api/blog/del?id=${item.id}`)
+      const { data: res } = await this.$http.post(`api/blog/timeDel?id=${item.id}`)
       if (res.errno !== 0) {
         this.text = '删除博客失败'
         this.color = 'error'
@@ -186,19 +149,12 @@ export default {
       this.text = '删除博客成功'
       this.color = 'success'
       this.snackbar = true
-      this.pagelist()
+      this.getList()
     },
   },
 }
 </script>
 <style scoped lang="scss">
-.v-data-table ::v-deep .v-data-footer {
-  display: none;
-}
-.pagination {
-  margin-top: 20px;
-}
-
 .container {
   border: 1px solid #eee;
   background: #fff;

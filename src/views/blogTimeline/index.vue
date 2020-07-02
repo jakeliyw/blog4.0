@@ -44,7 +44,6 @@ export default {
   methods: {
     async getList () {
       const { data: res } = await this.$http.get('/api/blog/timeAdmin')
-      console.log(res)
       if (res.errno !== 0) {
         alert('获取时间线数据失败')
         return

@@ -6,16 +6,15 @@
         <v-row>
           <v-col cols="12" sm="6">
             <v-text-field
-              label="时间名称"
+              label="标签名称"
               single-line
               outlined
-              v-model="upDate.title"
+              v-model="upTag.tags"
             ></v-text-field>
           </v-col>
         </v-row>
-        <mavon-editor v-model="upDate.content" />
         <div class="my-2">
-          <v-btn large color="teal" @click="postTime" class="newtitle">发表时间</v-btn>
+          <v-btn large color="teal" @click="postBlog" class="newtitle">发表博客</v-btn>
         </div>
       </v-container>
     </v-form>
@@ -44,58 +43,31 @@
 import HeaderTitle from '@/components/HeaderTitle'
 
 export default {
-  name: 'timeUpdate',
+  name: 'update',
   components: {
     HeaderTitle,
   },
   data: () => ({
-    title: '时间更新',
+    title: '标签更新',
     multiLine: true,
     color: '',
     y: 'top',
     snackbar: false,
     text: '',
-    upDate: [
-      {
-        title: '',
-        content: '',
-        createtime: '',
-        author: '',
-      },
-    ],
-  }),
-  mounted () {
-    this.getupdate()
-  },
-  methods: {
-    async getupdate () {
-      const deteilId = this.$store.state.detail.timeId.id
-      if (!deteilId) {
-        return
-      }
-      const { data: res } = await this.$http.get('api/blog/timeDetail', {
-        params: {
-          id: deteilId,
-        },
-      })
-      if (res.errno !== 0) {
-        this.text = '更新博客错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      this.upDate = res.data
+    upTag: {
+      tags: '',
     },
-    async postTime () {
-      const deteilId = this.$store.state.detail.timeId.id
-      const {data:res} = await this.$http.post(`api/blog/timeUpdate?id=${deteilId}`,this.upDate)
+  }),
+  methods: {
+    async postBlog () {
+      const { data: res } = await this.$http.post('/api/blog/tagNew', this.upTag)
       if (res.errno !== 0) {
         this.text = '更新博客错误'
         this.color = 'error'
         this.snackbar = true
         return
       }
-      this.$router.push({ name: 'timeline' })
+      this.$router.push({ name: 'tagadmin' })
     },
   },
 }

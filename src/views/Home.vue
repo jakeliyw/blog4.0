@@ -82,7 +82,30 @@
 
             </v-list-item>
           </v-list-group>
+<!--        标签管理-->
+          <v-list-group
+            prepend-icon="local_offer"
+            color="white"
+            v-show="isshow"
+          >
+            <template v-slot:activator>
+              <v-list-item-title>标签管理</v-list-item-title>
+            </template>
+            <v-list-item
+              v-for="(admin) in tagList"
+              :key="admin.id"
+              link
+              router
+              :to="admin.path"
+            >
+              <v-list-item-title
+                v-text="admin.title"
+              >
 
+              </v-list-item-title>
+
+            </v-list-item>
+          </v-list-group>
         </v-list>
 
         <template v-slot:append>
@@ -133,12 +156,7 @@ export default {
       adminsList: [],
       isshow: false,
       timeList: [],
-      admins: [
-        { id: 5, title: '文章全部', path: '/blogAdmin' },
-        { id: 6, title: '文章新建', path: '/blogNew' },
-        { id: 7, title: '文章更新', path: '/blogUpdate' },
-        { id: 8, title: '文章详情', path: '/blogDetail' },
-      ],
+      tagList: [],
       nowDate: '', // 当前日期
       nowTime: '', // 当前时间
       nowWeek: '', // 当前星期
@@ -148,6 +166,7 @@ export default {
     this.getMenu()
     this.getAdmin()
     this.getTime()
+    this.getTag()
     window.addEventListener('scroll', this.scrollToTop, true) // 生命周期滚动
     // 页面加载完后显示当前时间
     this.dealWithTime(new Date())
@@ -165,7 +184,6 @@ export default {
   methods: {
     async getMenu () {
       const { data: res } = await this.$http.get('/api/menu')
-      console.log(res)
       this.menuList = res.data
     },
     async getAdmin () {
@@ -181,6 +199,15 @@ export default {
       const { data: res } = await this.$http.get('/api/getTime')
       if (res.errno === 0) {
         this.timeList = res.data
+        this.isshow = true
+      } else {
+        this.isshow = false
+      }
+    },
+    async getTag () {
+      const { data: res } = await this.$http.get('/api/getTag')
+      if (res.errno === 0) {
+        this.tagList = res.data
         this.isshow = true
       } else {
         this.isshow = false

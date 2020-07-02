@@ -6,16 +6,15 @@
         <v-row>
           <v-col cols="12" sm="6">
             <v-text-field
-              label="时间名称"
+              label="标签名称"
               single-line
               outlined
-              v-model="upDate.title"
+              v-model="upTag.tags"
             ></v-text-field>
           </v-col>
         </v-row>
-        <mavon-editor v-model="upDate.content" />
         <div class="my-2">
-          <v-btn large color="teal" @click="postTime" class="newtitle">发表时间</v-btn>
+          <v-btn large color="teal" @click="postBlog" class="newtitle">发表博客</v-btn>
         </div>
       </v-container>
     </v-form>
@@ -44,23 +43,20 @@
 import HeaderTitle from '@/components/HeaderTitle'
 
 export default {
-  name: 'timeUpdate',
+  name: 'update',
   components: {
     HeaderTitle,
   },
   data: () => ({
-    title: '时间更新',
+    title: '标签更新',
     multiLine: true,
     color: '',
     y: 'top',
     snackbar: false,
     text: '',
-    upDate: [
+    upTag: [
       {
-        title: '',
-        content: '',
-        createtime: '',
-        author: '',
+        tags: '',
       },
     ],
   }),
@@ -69,33 +65,33 @@ export default {
   },
   methods: {
     async getupdate () {
-      const deteilId = this.$store.state.detail.timeId.id
-      if (!deteilId) {
+      const tagId = this.$store.state.detail.tagId.id
+      if (!tagId) {
         return
       }
-      const { data: res } = await this.$http.get('api/blog/timeDetail', {
+      const { data: res } = await this.$http.get('/api/blog/tagDetail', {
         params: {
-          id: deteilId,
+          id: tagId,
         },
-      })
+      }, this.upTag)
       if (res.errno !== 0) {
-        this.text = '更新博客错误'
+        this.text = '获取数据操作错误'
         this.color = 'error'
         this.snackbar = true
         return
       }
-      this.upDate = res.data
+      this.upTag = res.data
     },
-    async postTime () {
-      const deteilId = this.$store.state.detail.timeId.id
-      const {data:res} = await this.$http.post(`api/blog/timeUpdate?id=${deteilId}`,this.upDate)
+    async postBlog () {
+      const tagId = this.$store.state.detail.tagId.id
+      const { data: res } = await this.$http.post(`/api/blog/tagUpdate?id=${tagId}`, this.upTag)
       if (res.errno !== 0) {
         this.text = '更新博客错误'
         this.color = 'error'
         this.snackbar = true
         return
       }
-      this.$router.push({ name: 'timeline' })
+      this.$router.push({ name: 'tagadmin' })
     },
   },
 }
