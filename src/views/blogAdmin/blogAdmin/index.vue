@@ -151,7 +151,9 @@ export default {
         },
       })
       if (res.errno !== 0) {
-        alert('数据获取错误')
+        this.text = '数据获取错误'
+        this.color = 'error'
+        this.snackbar = true
         return
       }
       // 把数组的长度设置为后台计算的总长度

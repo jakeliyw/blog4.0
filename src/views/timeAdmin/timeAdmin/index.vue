@@ -28,7 +28,7 @@
               dark
               class="mb-2"
               @click="newBlog"
-            >新建博客
+            >添加时间
             </v-btn>
           </v-toolbar>
         </template>

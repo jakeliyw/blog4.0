@@ -14,7 +14,7 @@
           </v-col>
         </v-row>
         <div class="my-2">
-          <v-btn large color="teal" @click="postBlog" class="newtitle">发表博客</v-btn>
+          <v-btn large color="teal" @click="postBlog" class="newtitle">添加标签</v-btn>
         </div>
       </v-container>
     </v-form>

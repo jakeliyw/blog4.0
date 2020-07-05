@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-title :title="title"/>
+    <header-title :title="title" />
     <v-form>
       <v-container>
         <v-row>
@@ -10,7 +10,18 @@
               single-line
               outlined
               v-model="upblog.title"
-            ></v-text-field>
+            >
+            </v-text-field>
+          </v-col>
+          <v-col class="d-flex" cols="12" sm="6">
+            <v-select
+              :items="items"
+              :menu-props="{ top: true, offsetY: true }"
+              label="请选择标签"
+              v-model="upblog.tags"
+              outlined
+            >
+            </v-select>
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
@@ -20,9 +31,12 @@
               v-model="upblog.subContent"
             ></v-text-field>
           </v-col>
+
         </v-row>
-<!--        富文本编辑器-->
+        <br>
+        <!--        富文本编辑器-->
         <mavon-editor v-model="upblog.content" />
+        <br>
         <div class="my-2">
           <v-btn large color="teal" @click="up" class="btn-title">发表博客</v-btn>
         </div>
@@ -52,6 +66,7 @@
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+
 export default {
   name: 'newBlog',
   components: {
@@ -64,15 +79,32 @@ export default {
     y: 'top',
     snackbar: false,
     text: '',
+    items: [],
     upblog: {
       title: '',
       subContent: '',
       content: '',
       createtime: '',
       author: '',
+      tags: '',
     },
   }),
+  mounted () {
+    this.getTag()
+  },
   methods: {
+    async getTag () {
+      const { data: res } = await this.$http.get('/api/blog/tagList')
+      if (res.errno !== 0) {
+        this.text = '数据获取错误'
+        this.color = 'error'
+        this.snackbar = true
+        return
+      }
+      this.items = res.data.listData.map(item => {
+        return item.tags
+      })
+    },
     async up () {
       if (!this.upblog.title.trim()) {
         this.text = '请输入标题'
@@ -99,7 +131,7 @@ export default {
   @include Admin;
 }
 
-.btn-title{
+.btn-title {
   color: white;
 }
 </style>

@@ -27,7 +27,7 @@
               dark
               class="mb-2"
               @click="newBlog"
-            >新建博客
+            >新建标签
             </v-btn>
           </v-toolbar>
         </template>
@@ -150,9 +150,10 @@ export default {
           keyword: this.keyword,
         },
       })
-      console.log(res.data.listData)
       if (res.errno !== 0) {
-        alert('数据获取错误')
+        this.text = '数据获取错误'
+        this.color = 'error'
+        this.snackbar = true
         return
       }
       // 把数组的长度设置为后台计算的总长度

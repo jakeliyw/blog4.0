@@ -1,70 +1,72 @@
 <template>
   <div class="article">
     <div>
-    <header-title :title="title"/>
-    <div class="article-container container--fluid">
-      <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-          v-for="(item) of cardsdatalimit" :key="item.id"
-        >
-          <v-hover
-            v-slot:default="{ hover }"
-            open-delay="200"
+      <header-title :title="title" />
+      <div class="article-container container--fluid">
+        <v-row>
+          <v-col
+            cols="12"
+            sm="6"
+            v-for="(item) of cardsdatalimit" :key="item.id"
           >
-            <v-card
-              subtitle
-              :elevation="hover ? 16 : 2"
-              class="mx-auto"
-              max-width="799.5"
+            <v-hover
+              v-slot:default="{ hover }"
+              open-delay="200"
             >
-              <v-card-title class="headline mb-1 " @click="datail(item.id)">{{item.title}}</v-card-title>
-              <div class="meta-box">
+              <v-card
+                subtitle
+                :elevation="hover ? 16 : 2"
+                class="mx-auto"
+                max-width="799.5"
+              >
+                <v-card-title class="headline mb-1 " @click="datail(item.id)">{{item.title}}</v-card-title>
+                <div class="meta-box">
                         <span class="date">
                           <v-icon small class="con-yanjing">mdi-calendar-month-outline</v-icon>
                           <span>{{item.createtime}}</span>
                         </span>
-                <span class="author">
+                  <span class="author">
                           <v-icon small class="con-yanjing">mdi-face-outline</v-icon>
                           <span>{{item.author}}</span>
                         </span>
-                <span class="watch">
+                  <span class="watch">
                   <v-icon small class="con-yanjing">mdi-eye-outline</v-icon>
                   <span>{{item.toalnum}}</span>
         </span>
-              </div>
-              <div class="content">
-                {{item.subContent}}
-                <v-btn depressed x-small color="success" @click="datail(item.id)">阅读全文</v-btn>
-              </div>
-              <v-card-actions>
-                <v-btn class="pr-0" text icon color="blue-grey lighten-2">
-                  <v-icon small>mdi-tag-multiple
-                  </v-icon>
-                </v-btn>
-                <div class="underline">css</div>
-              </v-card-actions>
-            </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
-      <!--      分页-->
-      <div class="text-center">
-        <v-pagination
-          v-model="pagination.pagenum"
-          :length="total"
-          class="pagination"
-          color="teal"
-        ></v-pagination>
+                </div>
+                <div class="content">
+                  {{item.subContent}}
+                  <v-btn depressed x-small color="success" @click="datail(item.id)">阅读全文</v-btn>
+                </div>
+                <v-card-actions>
+                  <v-btn class="pr-0" text icon color="blue-grey lighten-2">
+                    <v-icon small>
+                      mdi-tag-multiple
+                    </v-icon>
+                  </v-btn>
+                  <div class="underline">{{item.tags}}</div>
+                </v-card-actions>
+              </v-card>
+            </v-hover>
+          </v-col>
+        </v-row>
+        <!--      分页-->
+        <div class="text-center">
+          <v-pagination
+            v-model="pagination.pagenum"
+            :length="total"
+            class="pagination"
+            color="teal"
+          ></v-pagination>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+
 export default {
   name: 'blogArticle',
   components: {
@@ -142,6 +144,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../style/Article";
+
 .article {
   @include Article;
 }
