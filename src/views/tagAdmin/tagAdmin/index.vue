@@ -117,24 +117,20 @@ export default {
     },
     page: {
       start: 0,
-      end: 5,
     },
   }),
 
   watch: {
-    // 监听这个当前页面
+    // 监听pagination.pagenum发生改变时，刷新5条数据
     'pagination.pagenum' () {
       this.page.start = (this.pagination.pagenum - 1) * 5
       this.pagelist()
     },
   },
   computed: {
+    // 这个是多少条数据显示一页
     total () {
       return Math.ceil(this.pagination.length / 5)
-    },
-    // 当前页start,取值
-    cardsdatalimit () {
-      return this.cardsData[this.page.start]
     },
   },
   mounted () {
@@ -146,7 +142,6 @@ export default {
       const { data: res } = await this.$http.get('/api/blog/tagList?isadmin=1', {
         params: {
           start: this.page.start,
-          end: this.page.end,
           keyword: this.keyword,
         },
       })

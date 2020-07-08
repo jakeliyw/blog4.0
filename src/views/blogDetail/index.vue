@@ -13,7 +13,7 @@
         </span>
         <span class="watch">
                   <v-icon small class="con-yanjing">mdi-eye-outline</v-icon>
-                  <span >{{cardsdata.toalnum}}</span>
+                  <span>{{cardsdata.toalnum}}</span>
         </span>
       </div>
       <div class="mavonEditor">
@@ -29,19 +29,34 @@
                       :ishljs="true"
         >
         </mavon-editor>
+        <div class="footer-info">
+          <div class="footer-left">
+            <v-icon small>
+              mdi-tag-multiple
+            </v-icon>
+            {{tags}}
+          </div>
+          <div class="footer-right">
+            <span style="margin-right: 10px">猜你喜欢</span>
+            <span>{{href}}</span>
+          </div>
+        </div>
       </div>
-<!--      <div class="markdown-body" v-html="cardsdata.content">{{cardsdata.content}}</div>-->
+      <!--      <div class="markdown-body" v-html="cardsdata.content">{{cardsdata.content}}</div>-->
     </div>
   </div>
 </template>
 
 <script>
 import 'mavon-editor/dist/css/index.css'
+
 export default {
   name: 'detail',
   data () {
     return {
       codeStyle: 'monokai-sublime', // 代码块主题
+      tags: '',
+      href: '',
       cardsdata: [
         {
           id: '',
@@ -54,6 +69,7 @@ export default {
   },
   mounted () {
     this.getDetail()
+    this.getArticle()
   },
 
   methods: {
@@ -69,7 +85,20 @@ export default {
         return
       }
       this.cardsdata = res.data
+      this.tags = res.data.tags
       this.cardsdata.createtime = this.$moment(this.cardsdata.createtime).format('YYYY-MM-DD HH:mm:ss')
+    },
+    async getArticle () {
+      const { data: res } = await this.$http.get('/api/blog/list')
+      const title = res.data.listData.map(item => {
+        return item.title
+      })
+      const titleId = res.data.listData.map(item => {
+        return item.id
+      })
+      console.log(titleId)
+      const id = Math.ceil(Math.random() * title.length - 1)
+      this.href = title[id]
     },
   },
 }
@@ -94,27 +123,54 @@ export default {
 
 .date {
   margin-right: 20px;
-  .con-yanjing{
+
+  .con-yanjing {
     margin-right: 4px;
   }
 }
+
 .author {
   @extend .date;
-  .con-yanjing{
+
+  .con-yanjing {
     margin-right: 4px;
   }
 }
+
 .watch {
   @extend .author;
-  .con-yanjing{
+
+  .con-yanjing {
     font-size: 12px;
     margin-right: 4px;
   }
 }
-.v-note-panel{
+
+.v-note-panel {
   border: none;
 }
+
 .v-note-show ::v-deep .v-show-content {
   padding: 0 0 !important;
+}
+
+.footer-info {
+  overflow: hidden;
+  padding: 1em 0;
+  border-bottom: 1px dashed #cacaca;
+  border-top: 1px dashed #cacaca;
+  margin: 1.5em 0;
+  font-size: 11px;
+  color: #757575;
+
+  .footer-left {
+    float: left;
+  }
+
+  .footer-right {
+    float: right;
+    line-height: 26px;
+    margin-right: 10px;
+  }
 }
 </style>

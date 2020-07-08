@@ -7,6 +7,8 @@ import vuetify from './plugins/vuetify'
 import moment from 'moment'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import VueWechatTitle from 'vue-wechat-title'
+Vue.use(VueWechatTitle)
 
 Vue.use(mavonEditor)
 Vue.prototype.$moment = moment

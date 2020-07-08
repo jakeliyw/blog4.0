@@ -117,7 +117,6 @@ export default {
     },
     page: {
       start: 0,
-      end: 5,
     },
   }),
 
@@ -146,7 +145,6 @@ export default {
       const { data: res } = await this.$http.get('/api/blog/list?isadmin=1', {
         params: {
           start: this.page.start,
-          end: this.page.end,
           keyword: this.keyword,
         },
       })
