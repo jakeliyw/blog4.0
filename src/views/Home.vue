@@ -336,7 +336,7 @@ export default {
 }
 
 .v-list-item {
-  min-height: 56px;
+  min-height: 40px;
 }
 
 .md-none {

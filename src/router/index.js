@@ -172,6 +172,7 @@ const router = new VueRouter({
   mode: 'history',
   routes,
 })
+
 router.beforeEach((to, from, next) => {
   const tokenStr = window.localStorage.getItem('token')
   if (!tokenStr) {

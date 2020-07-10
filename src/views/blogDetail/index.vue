@@ -37,8 +37,11 @@
             {{tags}}
           </div>
           <div class="footer-right">
+            <v-icon small color="red">
+              mdi-cards-heart
+            </v-icon>
             <span style="margin-right: 10px">猜你喜欢</span>
-            <span>{{href}}</span>
+            <span class="title-href" @click="detail(href.id)">{{href.title}}</span>
           </div>
         </div>
       </div>
@@ -56,7 +59,7 @@ export default {
     return {
       codeStyle: 'monokai-sublime', // 代码块主题
       tags: '',
-      href: '',
+      href: {},
       cardsdata: [
         {
           id: '',
@@ -87,18 +90,29 @@ export default {
       this.cardsdata = res.data
       this.tags = res.data.tags
       this.cardsdata.createtime = this.$moment(this.cardsdata.createtime).format('YYYY-MM-DD HH:mm:ss')
+      this.getArticle()
     },
     async getArticle () {
       const { data: res } = await this.$http.get('/api/blog/list')
-      const title = res.data.listData.map(item => {
-        return item.title
+      const link = res.data.listData.map(item => {
+        return {
+          title: item.title,
+          id: item.id,
+        }
       })
-      const titleId = res.data.listData.map(item => {
-        return item.id
+      while (true) {
+        const id = Math.floor(Math.random() * (link.length))
+        if (link[id].title !== this.cardsdata.title) {
+          this.href = link[id]
+          break
+        }
+      }
+    },
+    detail (id) {
+      this.$router.push({
+        path: `/blogDetail/${id}`,
       })
-      console.log(titleId)
-      const id = Math.ceil(Math.random() * title.length - 1)
-      this.href = title[id]
+      this.getDetail()
     },
   },
 }
@@ -171,6 +185,15 @@ export default {
     float: right;
     line-height: 26px;
     margin-right: 10px;
+  }
+}
+
+.title-href {
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: teal;
   }
 }
 </style>
