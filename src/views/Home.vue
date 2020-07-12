@@ -131,14 +131,14 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </v-app-bar>
       <!--        内容区域-->
-      <v-content class="remove-top">
+      <v-main class="remove-top">
         <div class="container">
           <div class="back-top">
             <img :src="require('../assets/image/top.png')" alt="顶部" v-if="btnFlag" class="go-top" @click="backTop">
           </div>
           <router-view></router-view>
         </div>
-      </v-content>
+      </v-main>
     </v-app>
   </div>
 </template>
