@@ -102,7 +102,7 @@ export default {
       })
       while (true) {
         const id = Math.floor(Math.random() * (link.length))
-        if (link[id].title !== this.cardsdata.title) {
+        if (link[id].title !== this.cardsdata.title || link.length === 1) {
           this.href = link[id]
           break
         }
