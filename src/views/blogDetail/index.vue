@@ -196,4 +196,7 @@ export default {
     color: teal;
   }
 }
+.v-note-wrapper {
+  position: static;
+}
 </style>

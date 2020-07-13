@@ -110,4 +110,7 @@ export default {
 .newtitle {
   color: white;
 }
+.v-note-wrapper {
+  position: static;
+}
 </style>
