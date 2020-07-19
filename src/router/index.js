@@ -163,7 +163,6 @@ const router = new VueRouter({
 //   return originalPush.call(this, location).catch(err => err)
 // }
 
-
 router.beforeEach((to, from, next) => {
   const tokenStr = window.localStorage.getItem('token')
   if (!tokenStr) {
