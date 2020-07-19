@@ -100,7 +100,6 @@ export default {
           id: item.id,
         }
       })
-<<<<<<< HEAD
       this.href = link
       // while (true) {
       //   const id = Math.floor(Math.random() * (link.length))
@@ -109,15 +108,6 @@ export default {
       //     break
       //   }
       // }
-=======
-      while (true) {
-        const id = Math.floor(Math.random() * (link.length))
-        if (link[id].title !== this.cardsdata.title || link.length === 1) {
-          this.href = link[id]
-          break
-        }
-      }
->>>>>>> 951a8f284abf28edac4fb1f92891d03007259b74
     },
     detail (id) {
       this.$router.push({
