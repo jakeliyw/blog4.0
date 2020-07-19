@@ -9,11 +9,11 @@
               label="时间名称"
               single-line
               outlined
-              v-model="upDate.title"
+              v-model="timeData.title"
             ></v-text-field>
           </v-col>
         </v-row>
-        <mavon-editor v-model="upDate.content" />
+        <mavon-editor v-model="timeData.content" />
         <div class="my-2">
           <v-btn large color="teal" @click="postTime" class="newtitle">添加时间</v-btn>
         </div>
@@ -55,18 +55,16 @@ export default {
     y: 'top',
     snackbar: false,
     text: '',
-    upDate: [
-      {
-        title: '',
-        createtime: '',
-        content: '',
-        author: '',
-      },
-    ],
+    timeData: {
+      title: '',
+      createtime: '',
+      content: '',
+      author: '',
+    },
   }),
   methods: {
     async postTime () {
-      const { data: res } = await this.$http.post('api/blog/timeNew', this.upDate)
+      const { data: res } = await this.$http.post('/api/blog/timeNew', this.timeData)
       if (res.errno !== 0) {
         this.text = '新建时间错误'
         this.color = 'error'
@@ -87,5 +85,9 @@ export default {
 
 .newtitle {
   color: white;
+}
+
+.v-note-wrapper {
+  position: static;
 }
 </style>

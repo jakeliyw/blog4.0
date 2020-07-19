@@ -134,4 +134,7 @@ export default {
 .btn-title {
   color: white;
 }
+.v-note-wrapper {
+  position: static;
+}
 </style>
