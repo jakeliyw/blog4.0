@@ -1,23 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import blogLogin from '../views/blogLogin'
-import Login from '../views/Login'
-import blogAdmin from '../views/blogAdmin/blogAdmin'
-import blogAbout from '../views/blogAbout'
-import blogArticle from '../views/blogArticle'
-import blogTag from '../views/blogTag'
-import blogTags from '../views/blogTags'
-import blogTimeline from '../views/blogTimeline'
-import blogDetail from '../views/blogDetail'
-import blogNew from '../views/blogAdmin/blogNew'
-import blogUpdate from '../views/blogAdmin/blogUpdate'
-import timeAdmin from '../views/timeAdmin/timeAdmin'
-import timeNew from '../views/timeAdmin/timeNew'
-import timeUpdate from '../views/timeAdmin/timeUpdate'
-import tagAdmin from '../views/tagAdmin/tagAdmin'
-import tagNew from '../views/tagAdmin/tagNew'
-import tagUpdate from '../views/tagAdmin/tagUpdate'
+import Home from '@/views/Home.vue'
+import Login from '@/views/Login'
 
 Vue.use(VueRouter)
 
@@ -31,7 +15,7 @@ const routes = [
       {
         path: '/blogArticle',
         name: 'article',
-        component: blogArticle,
+        component: () => import('@/views/blogArticle'),
         meta: {
           title: ' 首页 - Hakey的博客',
         },
@@ -39,7 +23,7 @@ const routes = [
       {
         path: '/blogTag',
         name: 'tag',
-        component: blogTag,
+        component: () => import('@/views/blogTag'),
         meta: {
           title: ' 标签 - Hakey的博客',
         },
@@ -47,7 +31,7 @@ const routes = [
       {
         path: '/blogTags/:item',
         name: 'tags',
-        component: blogTags,
+        component: () => import('@/views/blogTags'),
         meta: {
           title: ' 标签文章 - Hakey的博客',
         },
@@ -55,7 +39,7 @@ const routes = [
       {
         path: '/blogAbout',
         name: 'about',
-        component: blogAbout,
+        component: () => import('@/views/blogAbout'),
         meta: {
           title: ' 关于我 - Hakey的博客',
         },
@@ -63,7 +47,7 @@ const routes = [
       {
         path: '/blogTimeline',
         name: 'timeline',
-        component: blogTimeline,
+        component: () => import('@/views/blogTimeline'),
         meta: {
           title: ' 时间线 - Hakey的博客',
         },
@@ -71,7 +55,7 @@ const routes = [
       {
         path: '/blogAdmin',
         name: 'admin',
-        component: blogAdmin,
+        component: () => import('@/views/blogAdmin/blogAdmin'),
         meta: {
           title: ' 文章管理 - Hakey的博客',
         },
@@ -79,7 +63,7 @@ const routes = [
       {
         path: '/blogDetail/:id',
         name: 'detail',
-        component: blogDetail,
+        component: () => import('@/views/blogDetail'),
         meta: {
           title: ' 文章详情 - Hakey的博客',
         },
@@ -87,7 +71,7 @@ const routes = [
       {
         path: '/blogNew',
         name: 'new',
-        component: blogNew,
+        component: () => import('@/views/blogAdmin/blogNew'),
         meta: {
           title: ' 文章新建 - Hakey的博客',
         },
@@ -95,7 +79,7 @@ const routes = [
       {
         path: '/blogUpdate',
         name: 'update',
-        component: blogUpdate,
+        component: () => import('@/views/blogAdmin/blogUpdate'),
         meta: {
           title: ' 文章更新 - Hakey的博客',
         },
@@ -103,7 +87,7 @@ const routes = [
       {
         path: '/timeAdmin',
         name: 'timeadmin',
-        component: timeAdmin,
+        component: () => import('@/views/timeAdmin/timeAdmin'),
         meta: {
           title: ' 时间管理 - Hakey的博客',
         },
@@ -111,7 +95,7 @@ const routes = [
       {
         path: '/timeNew',
         name: 'timenew',
-        component: timeNew,
+        component: () => import('@/views/timeAdmin/timeNew'),
         meta: {
           title: ' 时间新建 - Hakey的博客',
         },
@@ -119,7 +103,7 @@ const routes = [
       {
         path: '/timeUpdate',
         name: 'timeupdate',
-        component: timeUpdate,
+        component: () => import('@/views/timeAdmin/timeUpdate'),
         meta: {
           title: ' 时间更新 - Hakey的博客',
         },
@@ -127,7 +111,7 @@ const routes = [
       {
         path: '/tagAdmin',
         name: 'tagadmin',
-        component: tagAdmin,
+        component: () => import('@/views/tagAdmin/tagAdmin'),
         meta: {
           title: ' 标签管理 - Hakey的博客',
         },
@@ -135,7 +119,7 @@ const routes = [
       {
         path: '/tagNew',
         name: 'tagnew',
-        component: tagNew,
+        component: () => import('@/views/tagAdmin/tagNew'),
         meta: {
           title: ' 标签新建 - Hakey的博客',
         },
@@ -143,7 +127,7 @@ const routes = [
       {
         path: '/tagUpdate',
         name: 'tagupdate',
-        component: tagUpdate,
+        component: () => import('@/views/tagAdmin/tagUpdate'),
         meta: {
           title: ' 标签更新 - Hakey的博客',
         },
@@ -159,7 +143,7 @@ const routes = [
       {
         path: '/blogLogin',
         name: 'bloglogin',
-        component: blogLogin,
+        component: () => import('@/views/blogLogin'),
         meta: {
           title: ' 登陆 - Hakey的博客',
         },
@@ -172,6 +156,12 @@ const router = new VueRouter({
   mode: 'history',
   routes,
 })
+
+// 避免冗余的点击导航
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location) {
+//   return originalPush.call(this, location).catch(err => err)
+// }
 
 router.beforeEach((to, from, next) => {
   const tokenStr = window.localStorage.getItem('token')
