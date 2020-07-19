@@ -100,13 +100,14 @@ export default {
           id: item.id,
         }
       })
-      while (true) {
-        const id = Math.floor(Math.random() * (link.length))
-        if (link[id].title !== this.cardsdata.title) {
-          this.href = link[id]
-          break
-        }
-      }
+      this.href = link
+      // while (true) {
+      //   const id = Math.floor(Math.random() * (link.length))
+      //   if (link[id].title !== this.cardsdata.title || link.length === 1) {
+      //     this.href = link[id]
+      //     break
+      //   }
+      // }
     },
     detail (id) {
       this.$router.push({
@@ -195,5 +196,9 @@ export default {
   &:hover {
     color: teal;
   }
+}
+
+.v-note-wrapper {
+  position: static;
 }
 </style>

@@ -88,7 +88,7 @@ export default {
     },
     async postTime () {
       const deteilId = this.$store.state.detail.timeId.id
-      const { data: res } = await this.$http.post(`api/blog/timeUpdate?id=${deteilId}`, this.upDate)
+      const { data: res } = await this.$http.post(`/api/blog/timeUpdate?id=${deteilId}`, this.upDate)
       if (res.errno !== 0) {
         this.text = '更新博客错误'
         this.color = 'error'
@@ -109,5 +109,8 @@ export default {
 
 .newtitle {
   color: white;
+}
+.v-note-wrapper{
+  position: static;
 }
 </style>
