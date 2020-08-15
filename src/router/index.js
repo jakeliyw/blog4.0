@@ -158,10 +158,17 @@ const router = new VueRouter({
 })
 
 // 避免冗余的点击导航
+<<<<<<< HEAD
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (location) {
   return originalPush.call(this, location).catch(err => err)
 }
+=======
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location) {
+//   return originalPush.call(this, location).catch(err => err)
+// }
+>>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
 
 router.beforeEach((to, from, next) => {
   const tokenStr = window.localStorage.getItem('token')

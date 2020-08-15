@@ -94,6 +94,7 @@ export default {
           id: item.id,
         }
       })
+      this.href = link
       while (true) {
         const id = Math.floor(Math.random() * (link.length))
         if (link[id].title !== this.cardsdata.title || link.length === 1) {
@@ -190,7 +191,10 @@ export default {
     color: teal;
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
 .v-note-wrapper {
   position: static;
 }
