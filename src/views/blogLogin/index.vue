@@ -74,6 +74,8 @@
 </template>
 
 <script>
+import { postLogin } from '@/api/blogLogin/blogLogin'
+
 export default {
   name: 'login',
   data: () => ({
@@ -99,14 +101,9 @@ export default {
   }),
   methods: {
     async validate () {
-      const { data: res } = await this.$http.post('/api/user/login', this.loginForm)
-      if (res.errno !== 0) {
-        this.text = '昵称或密码错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      window.localStorage.setItem('token', res.data.token)
+      const { data: token } = await postLogin(this.loginForm)
+      window.localStorage.setItem('token', token)
+      this.$store.commit('detail/settoken', token)
       this.$router.push({ name: 'admin' })
     },
     article () {
@@ -117,7 +114,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../style/Login";
 
 .login {
   @include login;

@@ -78,6 +78,7 @@
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { timeAdmin, timeDel } from '@/api/timeAdmin/timeAdmin'
 
 export default {
   name: 'admin',
@@ -115,18 +116,10 @@ export default {
   methods: {
     // 获取数据
     async getList () {
-      const { data: res } = await this.$http.get('/api/blog/timeAdmin', {
-        params: {
-          keyword: this.keyword,
-        },
+      const { data: res } = await timeAdmin({
+        keyword: this.keyword,
       })
-      if (res.errno !== 0) {
-        this.text = '数据获取错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      this.cardsData = res.data
+      this.cardsData = res
     },
     // 新增数据
     newBlog () {
@@ -139,13 +132,9 @@ export default {
     },
     // 删除数据
     async deleteItem (item) {
-      const { data: res } = await this.$http.post(`api/blog/timeDel?id=${item.id}`)
-      if (res.errno !== 0) {
-        this.text = '删除博客失败'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      await timeDel({
+        id: item.id,
+      })
       this.text = '删除博客成功'
       this.color = 'success'
       this.snackbar = true

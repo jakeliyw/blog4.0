@@ -41,6 +41,7 @@
 </template>
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { tagNew } from '@/api/tagAdmin/tagAdmin'
 
 export default {
   name: 'update',
@@ -60,20 +61,13 @@ export default {
   }),
   methods: {
     async postBlog () {
-      const { data: res } = await this.$http.post('/api/blog/tagNew', this.upTag)
-      if (res.errno !== 0) {
-        this.text = '更新博客错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      await tagNew(this.upTag)
       this.$router.push({ name: 'tagadmin' })
     },
   },
 }
 </script>
 <style scoped lang="scss">
-@import "../../../style/Admin";
 
 .admin {
   @include Admin;

@@ -42,6 +42,7 @@
 </template>
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { timeNew } from '@/api/timeAdmin/timeAdmin'
 
 export default {
   name: 'timeNew',
@@ -64,20 +65,13 @@ export default {
   }),
   methods: {
     async postTime () {
-      const { data: res } = await this.$http.post('/api/blog/timeNew', this.timeData)
-      if (res.errno !== 0) {
-        this.text = '新建时间错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      await timeNew(this.timeData)
       this.$router.push({ name: 'timeline' })
     },
   },
 }
 </script>
 <style scoped lang="scss">
-@import "../../../style/Admin";
 
 .admin {
   @include Admin;

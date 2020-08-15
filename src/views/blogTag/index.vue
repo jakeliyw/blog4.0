@@ -22,66 +22,13 @@
       </v-card-text>
     </v-card>
     <br>
-    <!--    <v-row>-->
-    <!--      <v-col-->
-    <!--        cols="12"-->
-    <!--        sm="6"-->
-    <!--        v-for="(item) of cardsdatalimit" :key="item.id"-->
-    <!--      >-->
-    <!--        <v-hover-->
-    <!--          v-slot:default="{ hover }"-->
-    <!--          open-delay="200"-->
-    <!--        >-->
-    <!--          <v-card-->
-    <!--            subtitle-->
-    <!--            :elevation="hover ? 16 : 2"-->
-    <!--            class="mx-auto"-->
-    <!--            max-width="799.5"-->
-    <!--          >-->
-    <!--            <v-card-title class="headline mb-1 " @click="datail(item.id)">{{item.title}}</v-card-title>-->
-    <!--            <div class="meta-box">-->
-    <!--                        <span class="date">-->
-    <!--                          <v-icon small class="con-yanjing">mdi-calendar-month-outline</v-icon>-->
-    <!--                          <span>{{item.createtime}}</span>-->
-    <!--                        </span>-->
-    <!--              <span class="author">-->
-    <!--                          <v-icon small class="con-yanjing">mdi-face-outline</v-icon>-->
-    <!--                          <span>{{item.author}}</span>-->
-    <!--                        </span>-->
-    <!--              <span class="watch">-->
-    <!--                  <v-icon small class="con-yanjing">mdi-eye-outline</v-icon>-->
-    <!--                  <span>{{item.toalnum}}</span>-->
-    <!--        </span>-->
-    <!--            </div>-->
-    <!--            <div class="content">-->
-    <!--              {{item.subContent}}-->
-    <!--              <v-btn depressed x-small color="success" @click="datail(item.id)">阅读全文</v-btn>-->
-    <!--            </div>-->
-    <!--            <v-card-actions>-->
-    <!--              <v-btn class="pr-0" text icon color="blue-grey lighten-2">-->
-    <!--                <v-icon small>-->
-    <!--                  mdi-tag-multiple-->
-    <!--                </v-icon>-->
-    <!--              </v-btn>-->
-    <!--              <div class="underline">{{item.tags}}</div>-->
-    <!--            </v-card-actions>-->
-    <!--          </v-card>-->
-    <!--        </v-hover>-->
-    <!--      </v-col>-->
-    <!--    </v-row>-->
-    <!--    &lt;!&ndash;        分页器&ndash;&gt;-->
-    <!--    <v-pagination-->
-    <!--      v-model="pagination.pagenum"-->
-    <!--      color="teal"-->
-    <!--      class="pagination"-->
-    <!--      :length="total"-->
-    <!--    ></v-pagination>-->
 
   </div>
 </template>
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { tagList } from '@/api/blogTag/blogTag'
 
 export default {
   name: 'blogTag',
@@ -93,7 +40,6 @@ export default {
     tagList: [],
     listLen: 0,
     tags: '',
-    cardsData: {},
     page: {
       start: 0,
     },
@@ -102,80 +48,25 @@ export default {
       length: 0,
     },
   }),
-  // watch: {
-  //   // 监听这个当前页面
-  //   'pagination.pagenum' () {
-  //     this.page.start = (this.pagination.pagenum - 1) * 5
-  //     this.getArticle(this.tags)
-  //   },
-  // },
-  // computed: {
-  //   total () {
-  //     return Math.ceil(this.pagination.length / 5)
-  //   },
-  //   // 当前页start,取值
-  //   cardsdatalimit () {
-  //     return this.cardsData[this.page.start]
-  //   },
-  // },
   mounted () {
     this.getTag()
   },
   methods: {
     async getTag () {
-      const { data: res } = await this.$http.get('/api/blog/tagList')
-      if (res.errno !== 0) {
-        this.text = '数据获取错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      this.tagList = res.data.listData
-      this.listLen = res.data.listLen
+      const { data: res } = await tagList()
+      this.tagList = res.listData
+      this.listLen = res.listLen
     },
     getArticle (item) {
       this.$router.push({
         path: `/blogTags/${item}`,
       })
-      // this.tags = item
-      // const { data: res } = await this.$http.get('/api/blog/list', {
-      //   params: {
-      //     start: this.page.start,
-      //     tags: this.tags,
-      //   },
-      // })
-      // if (res.errno !== 0) {
-      //   alert('数据错误')
-      //   return
-      // }
-      // // 把数组的长度设置为后台计算的总长度
-      // if (res.data.listData.length !== 0) {
-      //   this.$set(
-      //     this.pagination,
-      //     'length',
-      //     res.data.listLen,
-      //   )
-      // } else if (res.data.listData.length === 0) {
-      //   this.pagination.length = 1
-      //   this.pagination.pagenum = 1
-      // }
-      //
-      // // 将空对象修改成请求过来的数据
-      // this.$set(
-      //   this.cardsData,
-      //   this.page.start,
-      //   res.data.listData,
-      // )
-      // res.data.listData.map(item => {
-      //   item.createtime = this.$moment(item.createtime).format('YYYY-MM-DD HH:mm:ss')
-      // })
     },
   },
 }
 </script>
 
 <style scoped lang="scss">
-@import "../../style/Article";
 
 .article {
   @include Article;
@@ -197,7 +88,8 @@ export default {
 hr {
   display: none;
 }
-.title-article{
+
+.title-article {
   color: teal;
 }
 </style>

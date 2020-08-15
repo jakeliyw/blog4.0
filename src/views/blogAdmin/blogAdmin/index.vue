@@ -83,6 +83,7 @@
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { getAdmin, delAdmin } from '../../../api/blogAdmin/blogAdmin'
 
 export default {
   name: 'admin',
@@ -142,25 +143,19 @@ export default {
 
   methods: {
     async pagelist () {
-      const { data: res } = await this.$http.get('/api/blog/list?isadmin=1', {
+      const { data: res } = await getAdmin({
         params: {
           start: this.page.start,
           keyword: this.keyword,
         },
       })
-      if (res.errno !== 0) {
-        this.text = '数据获取错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
       // 把数组的长度设置为后台计算的总长度
       this.$set(
         this.pagination,
         'length',
-        res.data.listLen,
+        res.listLen,
       )
-      this.cardsData = res.data.listData
+      this.cardsData = res.listData
       // 将空对象修改成请求过来的数据
       // this.$set(
       //   this.cardsData,
@@ -177,13 +172,9 @@ export default {
       this.$router.push({ name: 'new' })
     },
     async deleteItem (item) {
-      const { data: res } = await this.$http.post(`/api/blog/del?id=${item.id}`)
-      if (res.errno !== 0) {
-        this.text = '删除博客失败'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      await delAdmin({
+        id: item.id,
+      })
       this.text = '删除博客成功'
       this.color = 'success'
       this.snackbar = true

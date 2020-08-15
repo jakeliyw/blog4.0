@@ -66,6 +66,7 @@
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { blogTag, postNewBlog } from '@/api/blogAdmin/blogNew'
 
 export default {
   name: 'newBlog',
@@ -85,7 +86,6 @@ export default {
       subContent: '',
       content: '',
       createtime: '',
-      author: '',
       tags: '',
     },
   }),
@@ -94,14 +94,8 @@ export default {
   },
   methods: {
     async getTag () {
-      const { data: res } = await this.$http.get('/api/blog/tagList')
-      if (res.errno !== 0) {
-        this.text = '数据获取错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      this.items = res.data.listData.map(item => {
+      const { data: res } = await blogTag()
+      this.items = res.listData.map(item => {
         return item.tags
       })
     },
@@ -112,20 +106,13 @@ export default {
         this.snackbar = true
         return
       }
-      const { data: res } = await this.$http.post('/api/blog/new', this.upblog)
-      if (res.errno !== 0) {
-        this.text = '添加博客失败'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      await postNewBlog(this.upblog)
       this.$router.push({ name: 'article' })
     },
   },
 }
 </script>
 <style scoped lang="scss">
-@import "../../../style/Admin";
 
 .admin {
   @include Admin;
@@ -134,7 +121,8 @@ export default {
 .btn-title {
   color: white;
 }
-.v-note-wrapper{
+
+.v-note-wrapper {
   position: static;
 }
 </style>

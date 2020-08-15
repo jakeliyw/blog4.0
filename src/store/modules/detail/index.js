@@ -2,6 +2,7 @@ const state = {
   id: '',
   timeId: '',
   tagId: '',
+  token: '',
 }
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   },
   tagDetail (state, tagId) {
     state.tagId = tagId
+  },
+  settoken (state, token) {
+    state.token = token
   },
 }
 

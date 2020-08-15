@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-title :title="title"/>
+    <header-title :title="title" />
     <v-form>
       <v-container>
         <v-row>
@@ -12,6 +12,16 @@
               v-model="upblog.title"
             ></v-text-field>
           </v-col>
+          <v-col class="d-flex" cols="12" sm="6">
+            <v-select
+              :items="items"
+              :menu-props="{ top: true, offsetY: true }"
+              label="请选择标签"
+              v-model="upblog.tags"
+              outlined
+            >
+            </v-select>
+          </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
               label="博客副内容"
@@ -21,7 +31,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <mavon-editor v-model="upblog.content"/>
+        <mavon-editor v-model="upblog.content" />
         <div class="my-2">
           <v-btn large color="teal" @click="postBlog" class="newtitle">发表博客</v-btn>
         </div>
@@ -50,6 +60,9 @@
 </template>
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { getDetail, postNewBlog } from '@/api/blogAdmin/blogUpdate'
+import { blogTag } from '@/api/blogAdmin/blogNew'
+
 export default {
   name: 'update',
   components: {
@@ -62,6 +75,7 @@ export default {
     y: 'top',
     snackbar: false,
     text: '',
+    items: [],
     upblog: [
       {
         title: '',
@@ -69,10 +83,12 @@ export default {
         content: '',
         createtime: '',
         author: '',
+        tags: '',
       },
     ],
   }),
   mounted () {
+    this.getTag()
     this.getupdate()
   },
   methods: {
@@ -81,43 +97,39 @@ export default {
       if (!detailid) {
         return
       }
-      const { data: res } = await this.$http.get('/api/blog/detail', {
-        params: {
-          id: detailid,
-        },
-      }, this.upblog)
-      if (res.errno !== 0) {
-        this.text = '获取数据操作错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      this.upblog = res.data
+      const { data: res } = await getDetail({
+        id: detailid,
+        upblog: this.upblog,
+      })
+      this.items.push(res.tags)
+      this.upblog = res
+    },
+    async getTag () {
+      const { data: res } = await blogTag()
+      this.items = res.listData.map(item => {
+        return item.tags
+      })
     },
     async postBlog () {
       const upDateid = this.$store.state.detail.id.id
-      const { data: res } = await this.$http.post(`/api/blog/update?id=${upDateid}`, this.upblog)
-      if (res.errno !== 0) {
-        this.text = '更新博客错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      this.upblog.id = upDateid
+      await postNewBlog(this.upblog)
       this.$router.push({ name: 'article' })
     },
   },
 }
 </script>
 <style scoped lang="scss">
-@import "../../../style/Admin";
 
 .admin {
   @include Admin;
 }
-.newtitle{
+
+.newtitle {
   color: white;
 }
-.v-note-wrapper{
+
+.v-note-wrapper {
   position: static;
 }
 </style>

@@ -15,7 +15,7 @@
         </v-row>
         <mavon-editor v-model="upDate.content" />
         <div class="my-2">
-          <v-btn large color="teal" @click="postTime" class="newtitle">添加时间</v-btn>
+          <v-btn large color="teal" @click="postTime" class="newtitle">更新时间</v-btn>
         </div>
       </v-container>
     </v-form>
@@ -42,6 +42,7 @@
 </template>
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { timeUpdate, timeDetail } from '@/api/timeAdmin/timeAdmin'
 
 export default {
   name: 'timeUpdate',
@@ -73,35 +74,39 @@ export default {
       if (!deteilId) {
         return
       }
-      const { data: res } = await this.$http.get('api/blog/timeDetail', {
-        params: {
-          id: deteilId,
-        },
+      const { data: res } = await timeDetail({
+        id: deteilId,
       })
-      if (res.errno !== 0) {
-        this.text = '更新博客错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      this.upDate = res.data
+      // const { data: res } = await this.$http.get('api/blog/timeDetail', {
+      //   params: {
+      //     id: deteilId,
+      //   },
+      // })
+      // if (res.errno !== 0) {
+      //   this.text = '更新博客错误'
+      //   this.color = 'error'
+      //   this.snackbar = true
+      //   return
+      // }
+      this.upDate = res
     },
     async postTime () {
       const deteilId = this.$store.state.detail.timeId.id
-      const { data: res } = await this.$http.post(`/api/blog/timeUpdate?id=${deteilId}`, this.upDate)
-      if (res.errno !== 0) {
-        this.text = '更新博客错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      this.upDate.id = deteilId
+      await timeUpdate(this.upDate)
+      // const { data: res } = await this.$http.post(`/api/blog/timeUpdate?id=${deteilId}`, this.upDate)
+      // if (res.errno !== 0) {
+      //   this.text = '更新博客错误'
+      //   this.color = 'error'
+      //   this.snackbar = true
+      //   return
+      // }
       this.$router.push({ name: 'timeline' })
     },
   },
 }
 </script>
 <style scoped lang="scss">
-@import "../../../style/Admin";
 
 .admin {
   @include Admin;
@@ -110,7 +115,8 @@ export default {
 .newtitle {
   color: white;
 }
-.v-note-wrapper{
+
+.v-note-wrapper {
   position: static;
 }
 </style>

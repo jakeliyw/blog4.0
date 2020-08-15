@@ -59,7 +59,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import "../../style/Admin";
 .admin{
   @include Admin;
 }

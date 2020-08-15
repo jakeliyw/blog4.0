@@ -39,7 +39,7 @@
               <v-list-item-title class="list-item">{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-<!--          文章管理-->
+          <!--          文章管理-->
           <v-list-group
             prepend-icon="local_offer"
             color="white"
@@ -48,17 +48,17 @@
             <template v-slot:activator>
               <v-list-item-title>文章管理</v-list-item-title>
             </template>
-              <v-list-item
-                v-for="(admin) in adminsList"
-                :key="admin.id"
-                link
-                router
-                :to="admin.path"
-              >
-                <v-list-item-title v-text="admin.title"></v-list-item-title>
-              </v-list-item>
-            </v-list-group>
-<!--          时间管理-->
+            <v-list-item
+              v-for="(admin) in adminsList"
+              :key="admin.id"
+              link
+              router
+              :to="admin.path"
+            >
+              <v-list-item-title v-text="admin.title"></v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+          <!--          时间管理-->
           <v-list-group
             prepend-icon="local_offer"
             color="white"
@@ -82,7 +82,7 @@
 
             </v-list-item>
           </v-list-group>
-<!--        标签管理-->
+          <!--        标签管理-->
           <v-list-group
             prepend-icon="local_offer"
             color="white"
@@ -144,6 +144,8 @@
 </template>
 
 <script>
+import { routerMenu, routerAdmins, routerTime, routerTag } from '@/api/Home/Home'
+
 export default {
   name: 'Home',
   data: () => {
@@ -182,36 +184,34 @@ export default {
     }
   },
   methods: {
+    isShowRes (res, list) {
+      if (res.errno === 0) {
+        res.data.map(item => {
+          list.push(item)
+        })
+        this.isshow = true
+      } else {
+        this.isshow = false
+      }
+    },
     async getMenu () {
-      const { data: res } = await this.$http.get('/api/menu')
-      this.menuList = res.data
+      const { data: res } = await routerMenu()
+      this.menuList = res
     },
-    async getAdmin () {
-      const { data: res } = await this.$http.get('/api/getAdmins')
-      if (res.errno === 0) {
-        this.adminsList = res.data
-        this.isshow = true
-      } else {
-        this.isshow = false
-      }
+    getAdmin () {
+      routerAdmins().then(res => {
+        this.isShowRes(res, this.adminsList)
+      })
     },
-    async getTime () {
-      const { data: res } = await this.$http.get('/api/getTime')
-      if (res.errno === 0) {
-        this.timeList = res.data
-        this.isshow = true
-      } else {
-        this.isshow = false
-      }
+    getTime () {
+      routerTime().then(res => {
+        this.isShowRes(res, this.timeList)
+      })
     },
-    async getTag () {
-      const { data: res } = await this.$http.get('/api/getTag')
-      if (res.errno === 0) {
-        this.tagList = res.data
-        this.isshow = true
-      } else {
-        this.isshow = false
-      }
+    getTag () {
+      routerTag().then(res => {
+        this.isShowRes(res, this.tagList)
+      })
     },
     login () {
       this.$router.push({ name: 'bloglogin' })
@@ -385,7 +385,8 @@ export default {
     height: 50px;
   }
 }
-.v-list-group ::v-deep .v-list-group__items{
+
+.v-list-group ::v-deep .v-list-group__items {
   margin-left: 55px;
 }
 </style>

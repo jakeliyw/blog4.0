@@ -1,8 +1,8 @@
 <template>
   <div>
-    <header-title :title="title"/>
+    <header-title :title="title" />
     <div class="container">
-      <v-timeline :reverse="reverse" :dense="$vuetify.breakpoint.smAndDown" >
+      <v-timeline :reverse="reverse" :dense="$vuetify.breakpoint.smAndDown">
         <v-timeline-item
           color="red lighten-2"
           small
@@ -28,6 +28,8 @@
 </template>
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { blogTimeline } from '@/api/blogTimeline/blogTimeline'
+
 export default {
   name: 'blogTimeline',
   components: {
@@ -43,24 +45,21 @@ export default {
   },
   methods: {
     async getList () {
-      const { data: res } = await this.$http.get('/api/blog/timeAdmin')
-      if (res.errno !== 0) {
-        alert('获取时间线数据失败')
-        return
-      }
-      res.data.map(item => {
+      const { data: res } = await blogTimeline()
+      res.map(item => {
         item.createtime = this.$moment(item.createtime).format('YYYY-MM-DD HH:mm:ss')
       })
-      this.datalist = res.data
+      this.datalist = res
     },
   },
 }
 </script>
 <style scoped lang="scss">
-@import "../../style/Admin";
-.admin{
+
+.admin {
   @include Admin;
 }
+
 .meta-box {
   font-size: 12px;
   color: #757575;

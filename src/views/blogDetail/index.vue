@@ -45,13 +45,13 @@
           </div>
         </div>
       </div>
-      <!--      <div class="markdown-body" v-html="cardsdata.content">{{cardsdata.content}}</div>-->
     </div>
   </div>
 </template>
 
 <script>
 import 'mavon-editor/dist/css/index.css'
+import { getBlogDetail, getBlogArticle } from '@/api/blogDetail/blogDetail'
 
 export default {
   name: 'detail',
@@ -78,36 +78,29 @@ export default {
   methods: {
     async getDetail () {
       const detailId = this.$route.params.id
-      const { data: res } = await this.$http.get('/api/blog/detail', {
-        params: {
-          id: detailId,
-        },
+      const { data: res } = await getBlogDetail({
+        id: detailId,
       })
-      if (res.errno !== 0) {
-        alert('数据错误')
-        return
-      }
-      this.cardsdata = res.data
-      this.tags = res.data.tags
+      this.cardsdata = res
+      this.tags = res.tags
       this.cardsdata.createtime = this.$moment(this.cardsdata.createtime).format('YYYY-MM-DD HH:mm:ss')
       this.getArticle()
     },
     async getArticle () {
-      const { data: res } = await this.$http.get('/api/blog/list')
-      const link = res.data.listData.map(item => {
+      const { data: res } = await getBlogArticle()
+      const link = res.listData.map(item => {
         return {
           title: item.title,
           id: item.id,
         }
       })
-      this.href = link
-      // while (true) {
-      //   const id = Math.floor(Math.random() * (link.length))
-      //   if (link[id].title !== this.cardsdata.title || link.length === 1) {
-      //     this.href = link[id]
-      //     break
-      //   }
-      // }
+      while (true) {
+        const id = Math.floor(Math.random() * (link.length))
+        if (link[id].title !== this.cardsdata.title || link.length === 1) {
+          this.href = link[id]
+          break
+        }
+      }
     },
     detail (id) {
       this.$router.push({

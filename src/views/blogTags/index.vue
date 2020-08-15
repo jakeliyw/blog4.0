@@ -72,6 +72,7 @@
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { getBlogArticle } from '@/api/blogTags/blogTags'
 
 export default {
   name: 'index',
@@ -113,29 +114,23 @@ export default {
   methods: {
     async getTags () {
       const tags = this.$route.params.item
-      const { data: res } = await this.$http.get('/api/blog/list', {
-        params: {
-          start: this.page.start,
-          tags,
-        },
+      const { data: res } = await getBlogArticle({
+        start: this.page.start,
+        tags,
       })
-      if (res.errno !== 0) {
-        alert('数据错误')
-        return
-      }
       // 把数组的长度设置为后台计算的总长度
       this.$set(
         this.pagination,
         'length',
-        res.data.listLen,
+        res.listLen,
       )
       // 将空对象修改成请求过来的数据
       this.$set(
         this.cardsData,
         this.page.start,
-        res.data.listData,
+        res.listData,
       )
-      res.data.listData.map(item => {
+      res.listData.map(item => {
         item.createtime = this.$moment(item.createtime).format('YYYY-MM-DD HH:mm:ss')
       })
     },
@@ -149,7 +144,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../style/Article";
 
 .article {
   @include Article;

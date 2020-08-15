@@ -83,6 +83,7 @@
 
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { tagList, tagDel } from '@/api/tagAdmin/tagAdmin'
 
 export default {
   name: 'admin',
@@ -139,25 +140,17 @@ export default {
 
   methods: {
     async pagelist () {
-      const { data: res } = await this.$http.get('/api/blog/tagList?isadmin=1', {
-        params: {
-          start: this.page.start,
-          keyword: this.keyword,
-        },
+      const { data: res } = await tagList({
+        start: this.page.start,
+        keyword: this.keyword,
       })
-      if (res.errno !== 0) {
-        this.text = '数据获取错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
       // 把数组的长度设置为后台计算的总长度
       this.$set(
         this.pagination,
         'length',
-        res.data.listLen,
+        res.listLen,
       )
-      this.cardsData = res.data.listData
+      this.cardsData = res.listData
     },
 
     editItem (item) {
@@ -168,13 +161,9 @@ export default {
       this.$router.push({ name: 'tagnew' })
     },
     async deleteItem (item) {
-      const { data: res } = await this.$http.post(`/api/blog/tagDel?id=${item.id}`)
-      if (res.errno !== 0) {
-        this.text = '删除博客失败'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      await tagDel({
+        id: item.id,
+      })
       this.text = '删除博客成功'
       this.color = 'success'
       this.snackbar = true

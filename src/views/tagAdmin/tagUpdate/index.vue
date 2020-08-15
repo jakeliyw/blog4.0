@@ -41,6 +41,7 @@
 </template>
 <script>
 import HeaderTitle from '@/components/HeaderTitle'
+import { tagDetail, tagUpdate } from '@/api/tagAdmin/tagAdmin'
 
 export default {
   name: 'update',
@@ -69,35 +70,22 @@ export default {
       if (!tagId) {
         return
       }
-      const { data: res } = await this.$http.get('/api/blog/tagDetail', {
-        params: {
-          id: tagId,
-        },
-      }, this.upTag)
-      if (res.errno !== 0) {
-        this.text = '获取数据操作错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
-      this.upTag = res.data
+      const { data: res } = await tagDetail({
+        id: tagId,
+        upTag: this.upTag,
+      })
+      this.upTag = res
     },
     async postBlog () {
       const tagId = this.$store.state.detail.tagId.id
-      const { data: res } = await this.$http.post(`/api/blog/tagUpdate?id=${tagId}`, this.upTag)
-      if (res.errno !== 0) {
-        this.text = '更新博客错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
+      this.upTag.id = tagId
+      await tagUpdate(this.upTag)
       this.$router.push({ name: 'tagadmin' })
     },
   },
 }
 </script>
 <style scoped lang="scss">
-@import "../../../style/Admin";
 
 .admin {
   @include Admin;
