@@ -65,24 +65,13 @@ export default {
   }),
   methods: {
     async postTime () {
-<<<<<<< HEAD
       await timeNew(this.timeData)
-=======
-      const { data: res } = await this.$http.post('/api/blog/timeNew', this.timeData)
-      if (res.errno !== 0) {
-        this.text = '新建时间错误'
-        this.color = 'error'
-        this.snackbar = true
-        return
-      }
->>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
       this.$router.push({ name: 'timeline' })
     },
   },
 }
 </script>
 <style scoped lang="scss">
-
 .admin {
   @include Admin;
 }

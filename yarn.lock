@@ -2399,11 +2399,7 @@ commander@2.17.x:
 
 commander@^2.18.0, commander@^2.20.0, commander@^2.20.3:
   version "2.20.3"
-<<<<<<< HEAD
-  resolved "https://registry.npm.taobao.org/commander/download/commander-2.20.3.tgz?cache=0&sync_timestamp=1595168281426&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcommander%2Fdownload%2Fcommander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
-=======
   resolved "https://registry.npm.taobao.org/commander/download/commander-2.20.3.tgz?cache=0&sync_timestamp=1592632082677&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcommander%2Fdownload%2Fcommander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
->>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
   integrity sha1-/UhehMA+tIgcIHIrpIA16FMa6zM=
 
 commander@~2.19.0:
@@ -4323,16 +4319,7 @@ highlight.js-async-webpack@^1.0.4:
   resolved "https://registry.npm.taobao.org/highlight.js-async-webpack/download/highlight.js-async-webpack-1.0.4.tgz#c06b67bf99f049045d62b756e5855b0912ec616c"
   integrity sha1-wGtnv5nwSQRdYrdW5YVbCRLsYWw=
 
-<<<<<<< HEAD
-highlight.js@^9.11.0:
-  version "9.18.3"
-  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.18.3.tgz#a1a0a2028d5e3149e2380f8a865ee8516703d634"
-  integrity sha1-oaCiAo1eMUniOA+Khl7oUWcD1jQ=
-
-highlight.js@^9.6.0:
-=======
 highlight.js@^9.11.0, highlight.js@^9.6.0:
->>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
   version "9.18.1"
   resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
   integrity sha1-7SGqAB/mJSuxCj121HVzxlOf4Tw=
@@ -8699,15 +8686,9 @@ vue-hot-reload-api@^2.3.0:
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
 vue-i18n@^8.18.2:
-<<<<<<< HEAD
-  version "8.21.0"
-  resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.21.0.tgz?cache=0&sync_timestamp=1597336528269&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-i18n%2Fdownload%2Fvue-i18n-8.21.0.tgz#526450525fdbb9c877685b5ba6cb9573b73d3940"
-  integrity sha1-UmRQUl/buch3aFtbpsuVc7c9OUA=
-=======
   version "8.18.2"
   resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.18.2.tgz?cache=0&sync_timestamp=1593249467120&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-i18n%2Fdownload%2Fvue-i18n-8.18.2.tgz#cd7c12f2e178e6faa23b0e3cfd2f7bac9305f8fc"
   integrity sha1-zXwS8uF45vqiOw48/S97rJMF+Pw=
->>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
 
 vue-loader@^15.9.2:
   version "15.9.2"
@@ -9032,15 +9013,9 @@ ws@^6.0.0, ws@^6.2.1:
     async-limiter "~1.0.0"
 
 xss@^1.0.6:
-<<<<<<< HEAD
-  version "1.0.8"
-  resolved "https://registry.npm.taobao.org/xss/download/xss-1.0.8.tgz?cache=0&sync_timestamp=1595841872877&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fxss%2Fdownload%2Fxss-1.0.8.tgz#32feb87feb74b3dcd3d404b7a68ababf10700535"
-  integrity sha1-Mv64f+t0s9zT1AS3poq6vxBwBTU=
-=======
   version "1.0.7"
   resolved "https://registry.npm.taobao.org/xss/download/xss-1.0.7.tgz#a554cbd5e909324bd6893fb47fff441ad54e2a95"
   integrity sha1-pVTL1ekJMkvWiT+0f/9EGtVOKpU=
->>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
   dependencies:
     commander "^2.20.3"
     cssfilter "0.0.10"

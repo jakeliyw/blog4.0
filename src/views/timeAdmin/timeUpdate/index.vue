@@ -77,30 +77,12 @@ export default {
       const { data: res } = await timeDetail({
         id: deteilId,
       })
-      // const { data: res } = await this.$http.get('api/blog/timeDetail', {
-      //   params: {
-      //     id: deteilId,
-      //   },
-      // })
-      // if (res.errno !== 0) {
-      //   this.text = '更新博客错误'
-      //   this.color = 'error'
-      //   this.snackbar = true
-      //   return
-      // }
       this.upDate = res
     },
     async postTime () {
       const deteilId = this.$store.state.detail.timeId.id
       this.upDate.id = deteilId
       await timeUpdate(this.upDate)
-      // const { data: res } = await this.$http.post(`/api/blog/timeUpdate?id=${deteilId}`, this.upDate)
-      // if (res.errno !== 0) {
-      //   this.text = '更新博客错误'
-      //   this.color = 'error'
-      //   this.snackbar = true
-      //   return
-      // }
       this.$router.push({ name: 'timeline' })
     },
   },
@@ -115,10 +97,7 @@ export default {
 .newtitle {
   color: white;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
 .v-note-wrapper {
   position: static;
 }

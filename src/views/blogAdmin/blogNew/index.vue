@@ -121,10 +121,7 @@ export default {
 .btn-title {
   color: white;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 7704ba8086ce0ec63bbc31acf435cba81dddea10
 .v-note-wrapper {
   position: static;
 }
