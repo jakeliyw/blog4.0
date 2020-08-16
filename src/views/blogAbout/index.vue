@@ -16,7 +16,7 @@
     <div class="container">
       <div class="content">
         <p>
-          项目的技术栈为 前端：Vue三件套，后端采用node+koa2+mysql。如果你对我的文章或博客有什么建议，
+          项目的技术栈为 前端：Vue三件套，后端采用Koa2+Redis+Mysql。如果你对我的文章或博客有什么建议，
           欢迎点击下方微信图标，添加微信并加以备注说明。
         </p>
       </div>
