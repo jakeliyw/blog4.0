@@ -114,7 +114,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.font-login {
+  font-size: 26px;
+  font-weight: 900;
+}
 .login {
   @include login;
 }
@@ -123,12 +126,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.font-login {
-  font-size: 26px;
-  font-weight: 900;
-  color: #313445;
 }
 
 .article {
