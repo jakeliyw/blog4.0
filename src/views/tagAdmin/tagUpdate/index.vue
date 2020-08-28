@@ -78,6 +78,10 @@ export default {
     },
     async postBlog () {
       const tagId = this.$store.state.detail.tagId.id
+      if (!tagId) {
+        alert('没有需要更新的数据')
+        return
+      }
       this.upTag.id = tagId
       await tagUpdate(this.upTag)
       this.$router.push({ name: 'tagadmin' })

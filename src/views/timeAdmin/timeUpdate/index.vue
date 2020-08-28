@@ -81,6 +81,10 @@ export default {
     },
     async postTime () {
       const deteilId = this.$store.state.detail.timeId.id
+      if (!deteilId) {
+        alert('没有需要更新的数据')
+        return
+      }
       this.upDate.id = deteilId
       await timeUpdate(this.upDate)
       this.$router.push({ name: 'timeline' })

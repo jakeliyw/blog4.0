@@ -3,30 +3,30 @@
     <header-title :title="title" />
     <div class="container">
       <v-data-table
-        :headers="headers"
-        :items="cardsData"
-        sort-by="calories"
-        class="elevation-1"
+          :headers="headers"
+          :items="cardsData"
+          sort-by="calories"
+          class="elevation-1"
       >
         <template v-slot:top>
           <v-toolbar flat color="white">
             <!--            搜索-->
             <v-text-field
-              v-model="keyword"
-              append-icon="search"
-              label="Search"
-              single-line
-              hide-details
-              @keyup.enter.native="pagelist"
+                v-model="keyword"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+                @keyup.enter.native="pagelist"
             ></v-text-field>
 
             <v-spacer></v-spacer>
             <!--            新建博客-->
             <v-btn
-              color="teal"
-              dark
-              class="mb-2"
-              @click="newBlog"
+                color="teal"
+                dark
+                class="mb-2"
+                @click="newBlog"
             >新建博客
             </v-btn>
           </v-toolbar>
@@ -34,18 +34,18 @@
         <!--        修改按钮-->
         <template v-slot:item.actions="{ item }">
           <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-            color="primary"
+              small
+              class="mr-2"
+              @click="editItem(item)"
+              color="primary"
           >
             mdi-pencil
           </v-icon>
           <!--          删除按钮-->
           <v-icon
-            small
-            color="red"
-            @click="deleteItem(item)"
+              small
+              color="red"
+              @click="deleteItem(item)"
           >
             mdi-delete
           </v-icon>
@@ -53,25 +53,25 @@
       </v-data-table>
       <!--        分页器-->
       <v-pagination
-        v-model="pagination.pagenum"
-        color="teal"
-        class="pagination"
-        :length="total"
+          v-model="pagination.pagenum"
+          color="teal"
+          class="pagination"
+          :length="total"
       ></v-pagination>
       <!--            弹窗提示-->
       <v-snackbar
-        :color="color"
-        v-model="snackbar"
-        :multi-line="multiLine"
-        :top="y === 'top'"
+          :color="color"
+          v-model="snackbar"
+          :multi-line="multiLine"
+          :top="y === 'top'"
       >
         {{ text }}
         <template v-slot:action="{ attrs }">
           <v-btn
-            color="color"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
+              color="color"
+              text
+              v-bind="attrs"
+              @click="snackbar = false"
           >
             关闭
           </v-btn>
@@ -133,9 +133,9 @@ export default {
       return Math.ceil(this.pagination.length / 5)
     },
     // 当前页start,取值
-    cardsdatalimit () {
-      return this.cardsData[this.page.start]
-    },
+    // cardsdatalimit () {
+    //   return this.cardsData[this.page.start]
+    // },
   },
   mounted () {
     this.pagelist()
@@ -144,10 +144,8 @@ export default {
   methods: {
     async pagelist () {
       const { data: res } = await getAdmin({
-        params: {
-          start: this.page.start,
-          keyword: this.keyword,
-        },
+        start: this.page.start,
+        keyword: this.keyword,
       })
       // 把数组的长度设置为后台计算的总长度
       this.$set(

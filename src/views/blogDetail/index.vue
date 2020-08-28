@@ -5,15 +5,15 @@
       <div class="article-meta">
         <span class="date">
                   <v-icon small class="con-yanjing">mdi-calendar-month-outline</v-icon>
-                  <span>{{cardsdata.createtime}}</span>
+                  <span class="information">{{cardsdata.createtime}}</span>
                 </span>
         <span class="author">
                   <v-icon small class="con-yanjing">mdi-face-outline</v-icon>
-                  <span>{{cardsdata.author}}</span>
+                  <span class="information">{{cardsdata.author}}</span>
         </span>
         <span class="watch">
                   <v-icon small class="con-yanjing">mdi-eye-outline</v-icon>
-                  <span>{{cardsdata.toalnum}}</span>
+                  <span class="information">{{cardsdata.toalnum}}</span>
         </span>
       </div>
       <div class="mavonEditor">
@@ -135,6 +135,10 @@ export default {
 
   .con-yanjing {
     margin-right: 4px;
+    vertical-align: middle;
+  }
+  .information {
+    vertical-align: middle;
   }
 }
 
