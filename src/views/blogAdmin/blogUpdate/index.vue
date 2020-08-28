@@ -112,6 +112,10 @@ export default {
     },
     async postBlog () {
       const upDateid = this.$store.state.detail.id.id
+      if (!upDateid) {
+        alert('没有需要更新的数据')
+        return
+      }
       this.upblog.id = upDateid
       await postNewBlog(this.upblog)
       this.$router.push({ name: 'article' })
