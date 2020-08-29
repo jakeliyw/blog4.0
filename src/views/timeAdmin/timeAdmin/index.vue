@@ -52,26 +52,6 @@
           </v-icon>
         </template>
       </v-data-table>
-
-      <!--            弹窗提示-->
-      <v-snackbar
-        :color="color"
-        v-model="snackbar"
-        :multi-line="multiLine"
-        :top="y === 'top'"
-      >
-        {{ text }}
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            color="color"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
-          >
-            关闭
-          </v-btn>
-        </template>
-      </v-snackbar>
     </div>
   </div>
 </template>
@@ -88,10 +68,6 @@ export default {
   data: () => ({
     title: '时间管理',
     multiLine: true,
-    color: '',
-    y: 'top',
-    snackbar: false,
-    text: '',
     headers: [
       {
         text: '时间标题',
@@ -132,12 +108,9 @@ export default {
     },
     // 删除数据
     async deleteItem (item) {
-      await timeDel({
+      confirm(`你确定要删除${item.title}吗?`) && await timeDel({
         id: item.id,
       })
-      this.text = '删除博客成功'
-      this.color = 'success'
-      this.snackbar = true
       this.getList()
     },
   },

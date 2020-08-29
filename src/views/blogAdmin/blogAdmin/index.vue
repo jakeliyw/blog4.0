@@ -46,6 +46,7 @@
               small
               color="red"
               @click="deleteItem(item)"
+
           >
             mdi-delete
           </v-icon>
@@ -58,25 +59,7 @@
           class="pagination"
           :length="total"
       ></v-pagination>
-      <!--            弹窗提示-->
-      <v-snackbar
-          :color="color"
-          v-model="snackbar"
-          :multi-line="multiLine"
-          :top="y === 'top'"
-      >
-        {{ text }}
-        <template v-slot:action="{ attrs }">
-          <v-btn
-              color="color"
-              text
-              v-bind="attrs"
-              @click="snackbar = false"
-          >
-            关闭
-          </v-btn>
-        </template>
-      </v-snackbar>
+
     </div>
   </div>
 </template>
@@ -93,10 +76,6 @@ export default {
   data: () => ({
     title: '文章管理',
     multiLine: true,
-    color: '',
-    y: 'top',
-    snackbar: false,
-    text: '',
     headers: [
       {
         text: '博客标题',
@@ -170,12 +149,9 @@ export default {
       this.$router.push({ name: 'new' })
     },
     async deleteItem (item) {
-      await delAdmin({
+      confirm(`你确定要删除${item.title}吗?`) && await delAdmin({
         id: item.id,
       })
-      this.text = '删除博客成功'
-      this.color = 'success'
-      this.snackbar = true
       this.pagelist()
     },
   },
