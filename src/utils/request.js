@@ -2,6 +2,8 @@ import axios from 'axios'
 import QS from 'qs'
 import store from '@/store/index'
 import router from '../router'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 const service = axios.create({
   baseURL: '',
@@ -13,6 +15,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+    NProgress.start()
     // 每次发送请求之前判断vuex中是否存在token
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
@@ -26,6 +29,7 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   response => {
+    NProgress.done()
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
     if (response.status === 200) {

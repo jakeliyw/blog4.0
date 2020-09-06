@@ -6,29 +6,29 @@
         <v-row>
           <v-col cols="12" sm="6">
             <v-text-field
-              label="博客名称"
-              single-line
-              outlined
-              v-model="upblog.title"
+                label="博客名称"
+                single-line
+                outlined
+                v-model="upblog.title"
             >
             </v-text-field>
           </v-col>
           <v-col class="d-flex" cols="12" sm="6">
             <v-select
-              :items="items"
-              :menu-props="{ top: true, offsetY: true }"
-              label="请选择标签"
-              v-model="upblog.tags"
-              outlined
+                :items="items"
+                :menu-props="{ top: true, offsetY: true }"
+                label="请选择标签"
+                v-model="upblog.tags"
+                outlined
             >
             </v-select>
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
-              label="博客副内容"
-              single-line
-              outlined
-              v-model="upblog.subContent"
+                label="博客副内容"
+                single-line
+                outlined
+                v-model="upblog.subContent"
             ></v-text-field>
           </v-col>
 
@@ -44,18 +44,18 @@
     </v-form>
     <!--            弹窗提示-->
     <v-snackbar
-      :color="color"
-      v-model="snackbar"
-      :multi-line="multiLine"
-      :top="y === 'top'"
+        :color="color"
+        v-model="snackbar"
+        :multi-line="multiLine"
+        :top="y === 'top'"
     >
       {{ text }}
       <template v-slot:action="{ attrs }">
         <v-btn
-          color="color"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
+            color="color"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
         >
           关闭
         </v-btn>

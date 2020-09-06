@@ -23,7 +23,7 @@
                 <div class="meta-box">
                         <span class="date">
                           <v-icon small class="con-yanjing">mdi-calendar-month-outline</v-icon>
-                          <span>{{item.createtime}}</span>
+                          <span>发表于 {{item.createtime}}</span>
                         </span>
                   <span class="author">
                           <v-icon small class="con-yanjing">mdi-face-outline</v-icon>
@@ -31,7 +31,7 @@
                         </span>
                   <span class="watch">
                   <v-icon small class="con-yanjing">mdi-eye-outline</v-icon>
-                  <span>{{item.toalnum}}</span>
+                  <span>阅读次数 {{item.toalnum}}</span>
         </span>
                 </div>
                 <div class="content">
@@ -59,6 +59,7 @@
             color="teal"
           ></v-pagination>
         </div>
+
       </div>
     </div>
   </div>

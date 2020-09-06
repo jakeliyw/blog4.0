@@ -10,3 +10,8 @@ export default {
   name: 'App',
 }
 </script>
+<style lang="scss">
+#nprogress .bar {
+  background: #F9D741 !important; //自定义颜色
+}
+</style>

@@ -3,11 +3,12 @@
     <v-app id="inspire">
       <!--        菜单栏区域-->
       <v-navigation-drawer
-        v-model="drawer"
-        app
-        color="teal"
-        enable-resize-watcher
+          v-model="drawer"
+          app
+          color="teal"
+          enable-resize-watcher
       >
+        <!--        遮罩层-->
         <v-list-item class="px-4">
           <v-list-item-avatar @click="login" class="item-title">
             <v-img :src="require('../assets/image/head.jpg')"></v-img>
@@ -18,18 +19,20 @@
         <!--          分割线-->
         <v-divider></v-divider>
         <v-list
-          dark
-          dense
-          nav
-          rounded
+            dense
+            flat
         >
+          <!--      dense高度缩小，rounded椭圆-->
+
           <v-list-item
-            v-show="istrue"
-            v-for="item in menuList"
-            :key="item.id"
-            link
-            router
-            :to="item.path"
+              v-show="istrue"
+              v-for="item in menuList"
+              :key="item.id"
+              link
+              router
+              :to="item.path"
+              :class="{ active: navIndex === item.id }"
+              @click="changeNavIndex(item.id)"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
@@ -41,41 +44,41 @@
           </v-list-item>
           <!--          文章管理-->
           <v-list-group
-            prepend-icon="local_offer"
-            color="white"
-            v-show="isshow"
+              prepend-icon="local_offer"
+              color="white"
+              v-show="isshow"
           >
             <template v-slot:activator>
-              <v-list-item-title>文章管理</v-list-item-title>
+              <v-list-item-title class="navText">文章管理</v-list-item-title>
             </template>
             <v-list-item
-              v-for="(admin) in adminsList"
-              :key="admin.id"
-              link
-              router
-              :to="admin.path"
+                v-for="admin in adminsList"
+                :key="admin.id"
+                link
+                router
+                :to="admin.path"
             >
               <v-list-item-title v-text="admin.title"></v-list-item-title>
             </v-list-item>
           </v-list-group>
           <!--          时间管理-->
           <v-list-group
-            prepend-icon="local_offer"
-            color="white"
-            v-show="isshow"
+              prepend-icon="local_offer"
+              color="white"
+              v-show="isshow"
           >
             <template v-slot:activator>
-              <v-list-item-title>时间管理</v-list-item-title>
+              <v-list-item-title class="navText">时间管理</v-list-item-title>
             </template>
             <v-list-item
-              v-for="(admin) in timeList"
-              :key="admin.id"
-              link
-              router
-              :to="admin.path"
+                v-for="admin in timeList"
+                :key="admin.id"
+                link
+                router
+                :to="admin.path"
             >
               <v-list-item-title
-                v-text="admin.title"
+                  v-text="admin.title"
               >
 
               </v-list-item-title>
@@ -84,22 +87,22 @@
           </v-list-group>
           <!--        标签管理-->
           <v-list-group
-            prepend-icon="local_offer"
-            color="white"
-            v-show="isshow"
+              prepend-icon="local_offer"
+              color="white"
+              v-show="isshow"
           >
             <template v-slot:activator>
-              <v-list-item-title>标签管理</v-list-item-title>
+              <v-list-item-title class="navText">标签管理</v-list-item-title>
             </template>
             <v-list-item
-              v-for="(admin) in tagList"
-              :key="admin.id"
-              link
-              router
-              :to="admin.path"
+                v-for="admin in tagList"
+                :key="admin.id"
+                link
+                router
+                :to="admin.path"
             >
               <v-list-item-title
-                v-text="admin.title"
+                  v-text="admin.title"
               >
 
               </v-list-item-title>
@@ -111,7 +114,7 @@
         <template v-slot:append>
           <div class="nav-bottom">
             <p>2020 | Hakey博客</p>
-            <p> {{nowDate}}{{nowWeek}}{{nowTime}}</p>
+            <p> {{ nowDate }}{{ nowWeek }}{{ nowTime }}</p>
             <a href="http://www.beian.gov.cn/portal/index.do">
               <img :src="require('../assets/image/police.png')" alt="备案" />
               粤ICP备20001315号
@@ -122,13 +125,14 @@
 
       <!--        头部区域-->
       <v-app-bar
-        app
-        color="teal"
-        dark
-        style="height: 56px"
-        class="md-none"
+          app
+          color="teal"
+          dark
+          style="height: 56px"
+          class="md-none"
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title>Hakey博客</v-toolbar-title>
       </v-app-bar>
       <!--        内容区域-->
       <v-main class="remove-top">
@@ -150,6 +154,7 @@ export default {
   name: 'Home',
   data: () => {
     return {
+      navIndex: 1,
       scrollTop: 0, // 初始化高度
       btnFlag: false, // 控制图片的隐藏
       istrue: true,
@@ -215,6 +220,9 @@ export default {
     },
     login () {
       this.$router.push({ name: 'bloglogin' })
+    },
+    changeNavIndex (index) {
+      this.navIndex = index
     },
     // 时间轮子
     dealWithTime (data) { // 获取当前时间
@@ -388,5 +396,19 @@ export default {
 
 .v-list-group ::v-deep .v-list-group__items {
   margin-left: 55px;
+}
+
+.active {
+  border-left: 2px solid #F9D741;
+  background-color:rgba(0,0,0,0.2);
+}
+.navText{
+  color: white;
+}
+.v-list--dense ::v-deep .v-icon{
+  color: white;
+}
+.v-list-item ::v-deep .v-list-item__title{
+  color: white;
 }
 </style>
