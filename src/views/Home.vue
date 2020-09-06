@@ -122,7 +122,6 @@
           </div>
         </template>
       </v-navigation-drawer>
-
       <!--        头部区域-->
       <v-app-bar
           app
@@ -221,8 +220,8 @@ export default {
     login () {
       this.$router.push({ name: 'bloglogin' })
     },
-    changeNavIndex (index) {
-      this.navIndex = index
+    changeNavIndex (id) {
+      this.navIndex = id
     },
     // 时间轮子
     dealWithTime (data) { // 获取当前时间
@@ -400,15 +399,18 @@ export default {
 
 .active {
   border-left: 2px solid #F9D741;
-  background-color:rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
 }
-.navText{
+
+.navText {
   color: white;
 }
-.v-list--dense ::v-deep .v-icon{
+
+.v-list--dense ::v-deep .v-icon {
   color: white;
 }
-.v-list-item ::v-deep .v-list-item__title{
+
+.v-list-item ::v-deep .v-list-item__title {
   color: white;
 }
 </style>
