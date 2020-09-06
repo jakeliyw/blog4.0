@@ -20,7 +20,8 @@
         <v-divider></v-divider>
         <v-list
             dense
-            flat
+            rounded
+            nav
         >
           <!--      dense高度缩小，rounded椭圆-->
 
@@ -31,8 +32,6 @@
               link
               router
               :to="item.path"
-              :class="{ active: navIndex === item.id }"
-              @click="changeNavIndex(item.id)"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
@@ -153,7 +152,6 @@ export default {
   name: 'Home',
   data: () => {
     return {
-      navIndex: 1,
       scrollTop: 0, // 初始化高度
       btnFlag: false, // 控制图片的隐藏
       istrue: true,
@@ -219,9 +217,6 @@ export default {
     },
     login () {
       this.$router.push({ name: 'bloglogin' })
-    },
-    changeNavIndex (id) {
-      this.navIndex = id
     },
     // 时间轮子
     dealWithTime (data) { // 获取当前时间
@@ -395,11 +390,6 @@ export default {
 
 .v-list-group ::v-deep .v-list-group__items {
   margin-left: 55px;
-}
-
-.active {
-  border-left: 2px solid #F9D741;
-  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .navText {
