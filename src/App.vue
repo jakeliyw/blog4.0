@@ -14,4 +14,8 @@ export default {
 #nprogress .bar {
   background: #F9D741 !important; //自定义颜色
 }
+::selection {
+  color: #fff;
+  background: teal;
+}
 </style>
