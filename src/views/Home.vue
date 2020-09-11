@@ -7,6 +7,7 @@
           app
           color="teal"
           enable-resize-watcher
+          width="200px"
       >
         <!--        遮罩层-->
         <v-list-item class="px-4">
@@ -315,7 +316,7 @@ export default {
 /*大于979内容冲上去*/
 @media screen and (min-width: 979px) {
   .remove-top {
-    padding: 0px 0px 0px 256px !important;
+    padding: 0px 0px 0px 200px !important;
   }
 }
 
