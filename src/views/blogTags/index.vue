@@ -4,7 +4,7 @@
     <br>
     <v-card
       class="mx-auto"
-      max-width="1640"
+      max-width="1660"
     >
       <v-card-text>
         共计
