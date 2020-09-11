@@ -4,7 +4,6 @@
     <br>
     <v-card
       class="mx-auto"
-      max-width="1640"
     >
       <v-divider class="mx-4"></v-divider>
       <v-card-text>
