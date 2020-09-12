@@ -35,7 +35,7 @@
         </v-row>
         <br>
         <!--        富文本编辑器-->
-        <mavon-editor v-model="upblog.content" />
+        <mavon-editor v-model="upblog.content" :codeStyle="codeStyle" />
         <br>
         <div class="my-2">
           <v-btn large color="teal" @click="up" class="btn-title">发表博客</v-btn>
@@ -75,6 +75,7 @@ export default {
   },
   data: () => ({
     title: '文章新建',
+    codeStyle: 'atelier-lakeside-dark',
     multiLine: true,
     color: '',
     y: 'top',

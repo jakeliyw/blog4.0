@@ -33,7 +33,7 @@
                       :value="cardsdata.content"
                       previewBackground="white"
                       class="v-note-panel v-note-show v-show-content"
-                      :codeStyle="codeStyle"
+                      :codeStyle="atelier-lakeside-dark"
                       :ishljs="true"
         >
         </mavon-editor>
@@ -72,7 +72,6 @@ export default {
   },
   data () {
     return {
-      codeStyle: 'monokai-sublime', // 代码块主题
       tags: '',
       href: {},
       wordNumber: 0,
